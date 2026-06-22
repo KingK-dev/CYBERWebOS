@@ -220,7 +220,7 @@
       justify-content: space-between;
       padding: 0 15px;
       box-sizing: border-box;
-      z-index: 99;
+      z-index: 1001;
       box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
     }
 
@@ -259,7 +259,7 @@
       border-radius: 14px;
       padding: 15px;
       box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-      z-index: 1000;
+      z-index: 1002;
       display: none;
       flex-direction: column;
       gap: 12px;
@@ -275,17 +275,36 @@
     .hud-slider { -webkit-appearance: none; appearance: none; width: 100%; height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; outline: none; margin-top: 4px; }
     .hud-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; background: var(--accent-color); cursor: pointer; box-shadow: 0 0 8px var(--accent-color); }
 
-    /* Apple Style Taskbar/Dock Architecture */
+    /* Invisible Trigger & Safe Boundaries Zone for Smart Auto-Hide Features */
+    .dock-trigger-zone {
+      position: absolute;
+      z-index: 999;
+      transition: left 0.4s, right 0.4s, top 0.4s, bottom 0.4s;
+    }
+    
+    .dock-trigger-zone.zone-bottom { bottom: 0; left: 50%; transform: translateX(-50%); padding-bottom: 12px; }
+    .dock-trigger-zone.zone-left { left: 0; top: 70px; bottom: 15px; padding-left: 12px; }
+    .dock-trigger-zone.zone-right { right: 0; top: 70px; bottom: 15px; padding-right: 12px; }
+
+    /* Taskbar/Dock Structural Foundations */
     .dock-wrapper { 
-      position: absolute; 
-      z-index: 999; 
       display: flex; 
       justify-content: center; 
-      transition: left 0.4s, right 0.4s, top 0.4s, bottom 0.4s; 
+      transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s; 
+      opacity: 1;
     }
-    .dock-wrapper.dock-pos-bottom { bottom: 12px; left: 50%; transform: translateX(-50%); height: 90px; width: auto; align-items: flex-end; }
-    .dock-wrapper.dock-pos-left { left: 12px; top: 50%; transform: translateY(-50%); width: 90px; height: auto; align-items: center; }
-    .dock-wrapper.dock-pos-right { right: 12px; top: 50%; transform: translateY(-50%); width: 90px; height: auto; align-items: center; }
+    
+    .dock-pos-bottom { height: 90px; width: auto; align-items: flex-end; }
+    .dock-pos-left { width: 90px; height: auto; align-items: center; }
+    .dock-pos-right { width: 90px; height: auto; align-items: center; }
+
+    /* Smooth Auto Hide Position Transformation Rules */
+    .dock-hidden-bottom { transform: translateY(calc(100% - 15px)); opacity: 0.4; }
+    .dock-hidden-bottom:hover { opacity: 1; }
+    .dock-hidden-left { transform: translateX(calc(-100% + 15px)); opacity: 0.4; }
+    .dock-hidden-left:hover { opacity: 1; }
+    .dock-hidden-right { transform: translateX(calc(100% - 15px)); opacity: 0.4; }
+    .dock-hidden-right:hover { opacity: 1; }
 
     .dock-container { 
       display: flex; 
@@ -299,7 +318,19 @@
       -webkit-backdrop-filter: blur(30px); 
       box-shadow: 0 20px 45px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1); 
     }
-    .dock-container.dock-orientation-vertical { flex-direction: column; align-items: center; justify-content: center; }
+    
+    .dock-container.dock-orientation-vertical { 
+      flex-direction: column; 
+      align-items: center; 
+      justify-content: flex-start; 
+      max-height: 100%;
+      overflow-y: auto;
+      overflow-x: visible;
+      padding: 16px 10px;
+    }
+    .dock-container.dock-orientation-vertical::-webkit-scrollbar {
+      display: none;
+    }
 
     :root { --dock-base-size: 44px; }
     .dock-container.dock-size-small { --dock-base-size: 34px; }
@@ -317,7 +348,7 @@
       justify-content: center; 
       flex-shrink: 0; 
       position: relative;
-      background: rgba(2, 4, 8, 0.75) !important; /* Darkened icon backgrounds uniformly for better contrast */
+      background: rgba(2, 4, 8, 0.75) !important; 
       transition: width 0.2s cubic-bezier(0.25, 1, 0.5, 1), 
                   height 0.2s cubic-bezier(0.25, 1, 0.5, 1), 
                   margin 0.2s cubic-bezier(0.25, 1, 0.5, 1),
@@ -326,7 +357,6 @@
     }
     .dock-orientation-vertical .app-icon { transform-origin: center center; }
 
-    /* Slight glow effect on hover to emphasize the icons */
     .app-icon:hover {
       border-color: rgba(255, 255, 255, 0.45) !important;
     }
@@ -349,6 +379,7 @@
       color: #fff;
       letter-spacing: 1px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      z-index: 2000;
     }
     .dock-orientation-vertical .icon-label { bottom: auto; left: calc(100% + 10px); transform: translateX(-4px); }
     .app-icon:hover .icon-label { opacity: 1; transform: translateY(0); }
@@ -451,7 +482,7 @@
 </head>
 <body>
 
-  <svg style="position: absolute; width: 0; height: 0;" width="0" height="0">
+  <svg style="position: absolute; width: 0; height: 0;" width="0; height: 0;">
     <defs>
       <filter id="cyber-melt-filter">
         <feTurbulence type="fractalNoise" id="melt-turbulence" baseFrequency="0.00001 0.00001" numOctaves="2" result="noise" />
@@ -648,6 +679,7 @@
             </div>
           </div>
 
+          <div class="settings-section-title">DOCK ENVIRONMENT PANEL</div>
           <div class="settings-toggle-row">
             <span class="settings-checkbox-label">DOCK LOCATION</span>
             <select class="settings-select-input" style="width:120px;" onchange="setDockPosition(this.value)">
@@ -760,37 +792,39 @@
         </div>
       </div>
 
-      <div class="dock-wrapper dock-pos-bottom" id="mac-dock-wrapper">
-        <div class="dock-container dock-size-medium" id="mac-dock-container-node">
-          <div class="app-icon" data-index="0" onclick="openAppWindow('terminal-window')" style="color: #00eeff; border-color: rgba(0,238,255,0.25);">
-            <div class="tech-logo-term"></div><div class="icon-label">1. TERMINAL SHELL</div>
-          </div>
-          <div class="app-icon" data-index="1" onclick="openAppWindow('viewer-window')" style="color: #9d00ff; border-color: rgba(157,0,255,0.25);">
-            <div class="tech-logo-data"><div class="data-node"></div><div class="data-node"></div><div class="data-node"></div></div><div class="icon-label">2. FILE EXPLORER</div>
-          </div>
-          <div class="app-icon" data-index="2" onclick="openAppWindow('calc-window')" style="color: #ffa500; border-color: rgba(255,165,0,0.25);">
-            <div class="tech-logo-math"></div><div class="icon-label">3. CORE CALCULATOR</div>
-          </div>
-          <div class="app-icon" data-index="3" onclick="openAppWindow('game-window')" style="color: #00ff66; border-color: rgba(0,255,102,0.35);">
-            <div class="tech-logo-gamerlink">G</div><div class="icon-label">GamerLink</div>
-          </div>
-          <div class="app-icon" data-index="4" onclick="openAppWindow('news-window')" style="color: #ff00ea; border-color: rgba(255,0,234,0.25);">
-            <div class="tech-logo-news"></div><div class="icon-label">4. TELEMETRY FEEDS</div>
-          </div>
-          <div class="app-icon" data-index="5" onclick="openAppWindow('gemini-window')" style="color: #7a9eff; border-color: rgba(122,158,255,0.35);">
-            <div class="tech-logo-gemini"></div><div class="icon-label">5. AI ENGINE</div>
-          </div>
-          <div class="app-icon" data-index="6" onclick="openAppWindow('settings-window')" style="color: #ffffff; border-color: rgba(255,255,255,0.25);">
-            <div class="tech-logo-conf"></div><div class="icon-label">6. SYSTEM CONTROL</div>
-          </div>
-          <div class="app-icon" data-index="7" onclick="launchExternalWebLinkRouter('gmail')" style="color: #ea4335; border-color: rgba(234,67,53,0.25);">
-            <div class="tech-logo-mail"></div><div class="icon-label">7. GOOGLE MAIL</div>
-          </div>
-          <div class="app-icon" data-index="8" onclick="launchExternalWebLinkRouter('spotify')" style="color: #1ed760; border-color: rgba(30,215,96,0.25);">
-            <div class="tech-logo-spot"></div><div class="icon-label">8. SPOTIFY PLAYER</div>
-          </div>
-          <div class="app-icon" data-index="9" onclick="launchExternalWebLinkRouter('youtube')" style="color: #ff0055; border-color: rgba(255,0,85,0.25);">
-            <div class="tech-logo-tube"></div><div class="icon-label">9. YOUTUBE MEDIA</div>
+      <div class="dock-trigger-zone zone-bottom" id="dock-trigger-zone-wrapper">
+        <div class="dock-wrapper dock-pos-bottom" id="mac-dock-wrapper">
+          <div class="dock-container dock-size-medium" id="mac-dock-container-node">
+            <div class="app-icon" data-index="0" onclick="openAppWindow('terminal-window')" style="color: #00eeff; border-color: rgba(0,238,255,0.25);">
+              <div class="tech-logo-term"></div><div class="icon-label">1. TERMINAL SHELL</div>
+            </div>
+            <div class="app-icon" data-index="1" onclick="openAppWindow('viewer-window')" style="color: #9d00ff; border-color: rgba(157,0,255,0.25);">
+              <div class="tech-logo-data"><div class="data-node"></div><div class="data-node"></div><div class="data-node"></div></div><div class="icon-label">2. FILE EXPLORER</div>
+            </div>
+            <div class="app-icon" data-index="2" onclick="openAppWindow('calc-window')" style="color: #ffa500; border-color: rgba(255,165,0,0.25);">
+              <div class="tech-logo-math"></div><div class="icon-label">3. CORE CALCULATOR</div>
+            </div>
+            <div class="app-icon" data-index="3" onclick="openAppWindow('game-window')" style="color: #00ff66; border-color: rgba(0,255,102,0.35);">
+              <div class="tech-logo-gamerlink">G</div><div class="icon-label">GamerLink</div>
+            </div>
+            <div class="app-icon" data-index="4" onclick="openAppWindow('news-window')" style="color: #ff00ea; border-color: rgba(255,0,234,0.25);">
+              <div class="tech-logo-news"></div><div class="icon-label">4. TELEMETRY FEEDS</div>
+            </div>
+            <div class="app-icon" data-index="5" onclick="openAppWindow('gemini-window')" style="color: #7a9eff; border-color: rgba(122,158,255,0.35);">
+              <div class="tech-logo-gemini"></div><div class="icon-label">5. AI ENGINE</div>
+            </div>
+            <div class="app-icon" data-index="6" onclick="openAppWindow('settings-window')" style="color: #ffffff; border-color: rgba(255,255,255,0.25);">
+              <div class="tech-logo-conf"></div><div class="icon-label">6. SYSTEM CONTROL</div>
+            </div>
+            <div class="app-icon" data-index="7" onclick="launchExternalWebLinkRouter('gmail')" style="color: #ea4335; border-color: rgba(234,67,53,0.25);">
+              <div class="tech-logo-mail"></div><div class="icon-label">7. GOOGLE MAIL</div>
+            </div>
+            <div class="app-icon" data-index="8" onclick="launchExternalWebLinkRouter('spotify')" style="color: #1ed760; border-color: rgba(30,215,96,0.25);">
+              <div class="tech-logo-spot"></div><div class="icon-label">8. SPOTIFY PLAYER</div>
+            </div>
+            <div class="app-icon" data-index="9" onclick="launchExternalWebLinkRouter('youtube')" style="color: #ff0055; border-color: rgba(255,0,85,0.25);">
+              <div class="tech-logo-tube"></div><div class="icon-label">9. YOUTUBE MEDIA</div>
+            </div>
           </div>
         </div>
       </div>
@@ -803,6 +837,8 @@
     let soundEnabled = true;
     let audioCtx = null;
     let masterGain = null;
+    let activeDockPosition = 'bottom';
+    let hideTimeoutId = null;
 
     const osSettings = {
       clockFormat: '12h',
@@ -886,6 +922,24 @@
           icon.style.width = baseSize;
           icon.style.height = baseSize;
         });
+      });
+
+      // Automated Hide Setup Routines
+      const triggerZone = document.getElementById('dock-trigger-zone-wrapper');
+      const dockWrapper = document.getElementById('mac-dock-wrapper');
+
+      triggerZone.addEventListener('mouseenter', () => {
+        clearTimeout(hideTimeoutId);
+        dockWrapper.classList.remove('dock-hidden-bottom', 'dock-hidden-left', 'dock-hidden-right');
+      });
+
+      triggerZone.addEventListener('mouseleave', () => {
+        clearTimeout(hideTimeoutId);
+        hideTimeoutId = setTimeout(() => {
+          if (activeDockPosition === 'bottom') dockWrapper.classList.add('dock-hidden-bottom');
+          else if (activeDockPosition === 'left') dockWrapper.classList.add('dock-hidden-left');
+          else if (activeDockPosition === 'right') dockWrapper.classList.add('dock-hidden-right');
+        }, 400); // Small delay to guarantee no disruptive snapping
       });
     }
 
@@ -1131,11 +1185,19 @@
 
     function setDockPosition(pos) {
       playSystemSound('click');
+      activeDockPosition = pos;
+      
+      const zone = document.getElementById('dock-trigger-zone-wrapper');
       const dock = document.getElementById('mac-dock-wrapper');
       const container = document.getElementById('mac-dock-container-node');
-      if(!dock || !container) return;
+      if(!zone || !dock || !container) return;
 
+      // Bring dock back into immediate focus when moving structures
+      dock.classList.remove('dock-hidden-bottom', 'dock-hidden-left', 'dock-hidden-right');
+      
+      zone.className = `dock-trigger-zone zone-${pos}`;
       dock.className = `dock-wrapper dock-pos-${pos}`;
+      
       if(pos === 'left' || pos === 'right') {
         container.classList.add('dock-orientation-vertical');
       } else {
@@ -1387,7 +1449,7 @@
       }, 750);
     }
 
-    // GAMERLINK ARCADE MODIFIED FULL-SCREEN LOGIC
+    // GAMERLINK ARCADE LOGIC
     let canvas = document.getElementById('warp-game-canvas');
     let ctx = canvas.getContext('2d');
     let arcadeMode = 'menu'; 
