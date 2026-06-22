@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CyberOS</title>
+  <title>Cyber-OS Ultimate</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap');
 
@@ -24,6 +24,7 @@
       overflow: hidden;
       background: #000000;
       font-size: calc(16px * var(--font-scale));
+      user-select: none;
     }
 
     #system-brightness-dimmer {
@@ -102,8 +103,1393 @@
       transition: transform 1.2s cubic-bezier(0.7, 0, 0.3, 1);
     }
 
-    .intro-load-layer.warp-active .core-reactor-container {
-      transform: scale(0.8);
+    .core-reactor-logo {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      background: #0a0101;
+      border: 6px double #ff1111;
+      box-shadow: 0 0 30px rgba(255, 17, 17, 0.4), inset 0 0 25px rgba(255, 17, 17, 0.5);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 13px;
+      font-weight: bold;
+      color: #fff;
+      letter-spacing: 2px;
+      text-shadow: 0 0 8px #ff1111;
+      animation: reactorPulse 3s infinite ease-in-out;
+    }
+
+    .core-reactor-logo::before {
+      content: '';
+      position: absolute;
+      width: 80%;
+      height: 80%;
+      border-radius: 50%;
+      border: 2px dashed rgba(255, 17, 17, 0.6);
+      animation: reactorRotate 20s linear infinite;
+    }
+
+    @keyframes reactorPulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 30px rgba(255, 17, 17, 0.4), inset 0 0 25px rgba(255, 17, 17, 0.5); }
+      50% { transform: scale(1.03); box-shadow: 0 0 50px rgba(255, 17, 17, 0.7), inset 0 0 40px rgba(255, 17, 17, 0.8); }
+    }
+
+    @keyframes reactorRotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .desktop-layer {
+      z-index: 10;
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.85) blur(15px);
+      transition: opacity 1.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+                  transform 1.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                  filter 1.2s ease-out;
+    }
+
+    .desktop-layer.reformed-active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(1) blur(0px);
+    }
+
+    /* Desktop Icons Grid */
+    .desktop-shortcuts-grid {
+      position: absolute;
+      top: 80px;
+      left: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      z-index: 20;
+    }
+
+    .desktop-icon-node {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 70px;
+      cursor: pointer;
+      gap: 6px;
+    }
+
+    .desktop-icon-visual {
+      width: 42px;
+      height: 42px;
+      background: rgba(var(--accent-color-rgb), 0.12);
+      border: 1px solid rgba(var(--accent-color-rgb), 0.3);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .desktop-icon-node:hover .desktop-icon-visual {
+      background: rgba(var(--accent-color-rgb), 0.25);
+      transform: translateY(-2px);
+    }
+
+    .desktop-icon-text {
+      font-size: 11px;
+      font-weight: bold;
+      color: #fff;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    .search-hub-container {
+      width: 85%;
+      max-width: 440px;
+      padding: 14px 20px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 14px;
+      border: 1px solid rgba(var(--accent-color-rgb), 0.25);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
+      margin-bottom: 40px;
+      z-index: 25;
+    }
+
+    .search-hub-title { font-family: 'Orbitron', sans-serif; font-size: 10px; letter-spacing: 3px; color: var(--accent-color); margin-bottom: 8px; text-transform: uppercase; }
+    .search-hub-form { display: flex; gap: 8px; align-items: center; }
+
+    .search-engine-select {
+      height: 24px;
+      padding: 0 8px;
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(var(--accent-color-rgb), 0.3);
+      border-radius: 6px;
+      color: var(--accent-color);
+      font-family: 'Orbitron', sans-serif;
+      font-size: 9px;
+      font-weight: bold;
+      cursor: pointer;
+      outline: none;
+    }
+    .search-hub-input { flex: 1; padding: 6px 12px; background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(var(--accent-color-rgb), 0.2); border-radius: 6px; color: white; font-family: 'Rajdhani', sans-serif; font-size: 14px; height: 24px; box-sizing: border-box; }
+    .search-hub-input:focus { outline: none; border-color: var(--accent-color); box-shadow: 0 0 10px rgba(var(--accent-color-rgb), 0.2); }
+    .search-hub-btn { height: 24px; padding: 0 12px; background: var(--accent-color); border: none; border-radius: 6px; color: #000; font-family: 'Orbitron', sans-serif; font-size: 9px; font-weight: bold; letter-spacing: 1px; cursor: pointer;}
+
+    .top-control-bar {
+      position: absolute;
+      top: 15px;
+      left: 5%;
+      width: 90%;
+      height: 42px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 12px;
+      border: 1px solid rgba(var(--accent-color-rgb), 0.25);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 15px;
+      box-sizing: border-box;
+      z-index: 1001;
+    }
+
+    .top-left-modules { display: flex; align-items: center; gap: 12px; font-family: 'Orbitron', sans-serif; font-size: 11px; }
+    .notification-center { color: #ffa500; cursor: pointer; background: rgba(255,165,0,0.08); padding: 4px 8px; border-radius: 6px; border: 1px solid rgba(255,165,0,0.2); }
+
+    .control-hub-toggle-btn {
+      color: var(--accent-color);
+      background: rgba(var(--accent-color-rgb), 0.08);
+      border: 1px solid rgba(var(--accent-color-rgb), 0.25);
+      padding: 4px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .top-right-clock-container { display: flex; align-items: center; gap: 10px; font-family: 'Orbitron', sans-serif; font-size: 11px; letter-spacing: 1px; }
+    .top-bar-date { color: #8b9bb4; }
+    .top-bar-time { color: #ffffff; font-weight: bold; }
+
+    .control-center-popup {
+      position: absolute;
+      top: 65px;
+      left: 5%;
+      width: 240px;
+      background: rgba(4, 8, 15, 0.85);
+      border: 1px solid rgba(var(--accent-color-rgb), 0.3);
+      border-radius: 14px;
+      padding: 15px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+      z-index: 1002;
+      display: none;
+      flex-direction: column;
+      gap: 12px;
+      text-align: left;
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+    }
+    .control-center-popup.active { display: flex; }
+    .cc-slider-row { display: flex; flex-direction: column; gap: 4px; }
+    .cc-label { font-family: 'Orbitron', sans-serif; font-size: 10px; color: #8b9bb4; letter-spacing: 1px; display: flex; justify-content: space-between; }
+    .cc-label span { color: var(--accent-color); }
+
+    .hud-slider { -webkit-appearance: none; appearance: none; width: 100%; height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; outline: none; margin-top: 4px; }
+    .hud-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; background: var(--accent-color); cursor: pointer; }
+
+    /* Auto Hide Triggers & Bounds */
+    .dock-trigger-zone {
+      position: absolute;
+      z-index: 999;
+      transition: left 0.4s, right 0.4s, top 0.4s, bottom 0.4s;
+    }
+    .dock-trigger-zone.zone-bottom { bottom: 0; left: 50%; transform: translateX(-50%); padding-bottom: 12px; }
+    .dock-trigger-zone.zone-left { left: 0; top: 70px; bottom: 15px; padding-left: 12px; }
+    .dock-trigger-zone.zone-right { right: 0; top: 70px; bottom: 15px; padding-right: 12px; }
+
+    .dock-wrapper { display: flex; justify-content: center; transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s; opacity: 1; }
+    .dock-pos-bottom { height: 90px; width: auto; align-items: flex-end; }
+    .dock-pos-left { width: 90px; height: auto; align-items: center; }
+    .dock-pos-right { width: 90px; height: auto; align-items: center; }
+
+    .dock-hidden-bottom { transform: translateY(calc(100% - 15px)); opacity: 0.3; }
+    .dock-hidden-left { transform: translateX(calc(-100% + 15px)); opacity: 0.3; }
+    .dock-hidden-right { transform: translateX(calc(100% - 15px)); opacity: 0.3; }
+
+    .dock-container { display: flex; align-items: flex-end; gap: 10px; background: rgba(4, 8, 16, 0.45); padding: 10px 16px; border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.15); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); box-shadow: 0 20px 45px rgba(0,0,0,0.5); }
+    .dock-container.dock-orientation-vertical { flex-direction: column; align-items: center; justify-content: flex-start; padding: 16px 10px; }
+
+    :root { --dock-base-size: 44px; }
+    .dock-container.dock-size-small { --dock-base-size: 34px; }
+    .dock-container.dock-size-large { --dock-base-size: 56px; }
+
+    .app-icon { width: var(--dock-base-size); height: var(--dock-base-size); border-radius: 12px; cursor: pointer; border: 1px solid rgba(255, 255, 255, 0.1); display: flex; align-items: center; justify-content: center; position: relative; background: rgba(2, 4, 8, 0.8) !important; transition: width 0.2s, height 0.2s, border-color 0.2s; transform-origin: bottom center; }
+    .dock-orientation-vertical .app-icon { transform-origin: center center; }
+    .app-icon:hover { border-color: rgba(255, 255, 255, 0.45) !important; }
+
+    .icon-label { font-family: 'Orbitron', sans-serif; font-size: 8px; font-weight: 700; position: absolute; bottom: -22px; white-space: nowrap; opacity: 0; transform: translateY(-4px); transition: opacity 0.2s, transform 0.2s; pointer-events: none; background: rgba(4, 8, 16, 0.95); padding: 4px 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.15); color: #fff; z-index: 2000; }
+    .dock-orientation-vertical .icon-label { bottom: auto; left: calc(100% + 10px); transform: translateX(-4px); }
+    .app-icon:hover .icon-label { opacity: 1; transform: translateY(0); }
+
+    /* Micro Vectors */
+    .icon-font-node { font-family: 'Orbitron', sans-serif; font-size: 13px; font-weight: bold; }
+
+    /* Window Architecture System */
+    .app-window { position: absolute; top: 120px; left: 15%; width: 80%; max-width: 440px; height: 350px; background: rgba(4, 8, 16, 0.75); border: 1px solid rgba(var(--accent-color-rgb), 0.35); border-radius: 16px; display: none; flex-direction: column; overflow: hidden; z-index: 100; box-shadow: 0 30px 70px rgba(0,0,0,0.6); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); }
+    .app-window.active { display: flex !important; }
+    .app-window.fullscreen-mode { top: 0 !important; left: 0 !important; width: 100% !important; height: 100% !important; border-radius: 0px !important; max-width: none !important; }
+
+    .window-header { background: rgba(var(--accent-color-rgb), 0.08); padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(var(--accent-color-rgb), 0.15); cursor: move; }
+    .window-title { font-family: 'Orbitron', sans-serif; font-size: 10px; letter-spacing: 1px; color: var(--accent-color); }
+    .window-controls { display: flex; align-items: center; gap: 8px; }
+    .win-ctrl-btn { width: 14px; height: 14px; display: flex; align-items: center; justify-content: center; cursor: pointer; border-radius: 4px; }
+    .ctrl-min::after { content: ''; width: 8px; height: 2px; background: #ffa500; }
+    .ctrl-max::after { content: ''; width: 6px; height: 6px; border: 1px solid var(--accent-color); }
+    .ctrl-close { background: rgba(255, 85, 85, 0.15); border: 1px solid #ff5555; }
+    .ctrl-close::after { content: '×'; color: #ff5555; font-size: 11px; line-height: 12px; }
+
+    .window-body { flex: 1; padding: 15px; display: flex; flex-direction: column; text-align: left; background: rgba(0, 0, 0, 0.2); overflow-y: auto; color: #e2e8f0; }
+    .bg-selector-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 10px; }
+    .bg-btn { padding: 8px; font-family: 'Orbitron', sans-serif; font-size: 10px; background: rgba(255,255,255,0.04); border: 1px solid rgba(var(--accent-color-rgb), 0.25); color: white; border-radius: 6px; cursor: pointer; }
+
+    .settings-section-title { color: var(--accent-color); font-family: 'Orbitron', sans-serif; font-size: 11px; margin: 12px 0 6px 0; letter-spacing: 1px; text-transform: uppercase; border-bottom: 1px solid rgba(var(--accent-color-rgb), 0.15); padding-bottom: 2px;}
+    .settings-toggle-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
+    .settings-toggle-btn { flex: 1; padding: 6px; font-family: 'Orbitron', sans-serif; font-size: 9px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.15); color: #a0aec0; border-radius: 6px; cursor: pointer; }
+    .settings-toggle-btn.settings-toggle-active { background: rgba(var(--accent-color-rgb), 0.15); border-color: var(--accent-color); color: var(--accent-color); font-weight: bold; }
+    .settings-select-input { background: #0d1321; border: 1px solid rgba(var(--accent-color-rgb), 0.3); color: white; border-radius: 6px; padding: 4px 6px; font-family: 'Rajdhani', sans-serif; }
+
+    /* Calculator Architecture Styles */
+    .calc-screen { width: 100%; height: 40px; background: rgba(0,0,0,0.5); border-radius: 6px; margin-bottom: 10px; text-align: right; padding: 10px; box-sizing: border-box; font-size: 18px; font-family: 'Orbitron', monospace; border: 1px solid rgba(var(--accent-color-rgb), 0.25); color: var(--accent-color); }
+    .calc-buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; flex: 1; }
+    .calc-btn { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; color: white; font-size: 14px; cursor: pointer; font-family: 'Orbitron'; }
+
+    /* Audio Window Canvas Wave Visualizer Layout */
+    .audio-visualizer-canvas { width: 100%; height: 60px; background: rgba(0,0,0,0.4); border-radius: 8px; border: 1px solid rgba(var(--accent-color-rgb), 0.2); margin-top: 10px; }
+
+    .news-card { background: rgba(255,255,255,0.03); border-left: 3px solid var(--accent-color); padding: 8px 12px; border-radius: 0 6px 6px 0; margin-bottom: 8px; }
+    .news-tag { font-family: 'Orbitron', sans-serif; font-size: 8px; color: var(--accent-color); letter-spacing: 1px; text-transform: uppercase; }
+    .news-headline { font-size: 13px; font-weight: bold; margin: 2px 0; color: #fff; }
+
+    .gl-menu { display: grid; grid-template-columns: 1fr; gap: 8px; }
+    .gl-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(0, 255, 102, 0.2); border-radius: 8px; padding: 8px 12px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+    .gl-item:hover { background: rgba(0, 255, 102, 0.08); border-color: #00ff66; }
+    .gl-title { font-family: 'Orbitron', sans-serif; font-size: 11px; color: #00ff66; font-weight: bold; }
+    .gl-desc { font-size: 11px; color: #a0aec0; margin: 0; text-align: left; }
+    .gl-back-btn { font-family: 'Orbitron', sans-serif; font-size: 9px; background: rgba(255,255,255,0.05); border: 1px solid #ff5555; color: #ff5555; padding: 4px 8px; border-radius: 4px; cursor: pointer; margin-bottom: 8px; align-self: flex-start; }
+    
+    .gl-grid-matrix { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 5px; width: 100%; box-sizing: border-box; }
+    .gl-matrix-node { height: 65px; background: rgba(255,255,255,0.02); border: 1px solid rgba(0,255,102,0.2); border-radius: 8px; cursor: pointer; }
+    .gl-matrix-node.flash { background: #00ff66 !important; box-shadow: 0 0 15px #00ff66; }
+  </style>
+</head>
+<body>
+
+  <svg style="position: absolute; width: 0; height: 0;">
+    <defs>
+      <filter id="cyber-melt-filter">
+        <feTurbulence type="fractalNoise" id="melt-turbulence" baseFrequency="0.00001 0.00001" numOctaves="2" result="noise" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="0" xChannelSelector="R" yChannelSelector="G" id="melt-displacement" />
+      </filter>
+    </defs>
+  </svg>
+
+  <div id="system-brightness-dimmer"></div>
+
+  <div id="os-workspace-wrapper">
+
+    <div class="screen-layer intro-load-layer" id="boot-screen" onclick="initiateAudioEngine(event)">
+      <div class="core-reactor-container">
+        <div class="core-reactor-logo" id="reactor-trigger-text">ENGAGE</div>
+        <div>
+          <h1 style="font-family: 'Orbitron', sans-serif; font-size: 32px; margin: 0; letter-spacing: 5px; color: #ff1111;">Cyber-OS</h1>
+          <p style="font-size: 13px; letter-spacing: 2px; color: #8b9bb4; text-transform: uppercase; margin: 4px 0 0 0;">Tap Core Node to Mount Matrix</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen-layer desktop-layer" id="desktop-surface">
+
+      <div class="desktop-shortcuts-grid">
+        <div class="desktop-icon-node" ondblclick="openAppWindow('terminal-window')" onclick="playSystemSound('click')">
+          <div class="desktop-icon-visual">🖳</div><div class="desktop-icon-text">Terminal</div>
+        </div>
+        <div class="desktop-icon-node" ondblclick="openAppWindow('notes-window')" onclick="playSystemSound('click')">
+          <div class="desktop-icon-visual">📁</div><div class="desktop-icon-text">Notes</div>
+        </div>
+        <div class="desktop-icon-node" ondblclick="openAppWindow('game-window')" onclick="playSystemSound('click')">
+          <div class="desktop-icon-visual">🎮</div><div class="desktop-icon-text">Arcade</div>
+        </div>
+      </div>
+
+      <div class="top-control-bar">
+        <div class="top-left-modules">
+          <div id="hud-alert-center" class="notification-center" style="color:#00ff66; background:rgba(0,255,102,0.05); border-color:rgba(0,255,102,0.2);">OS MAINFRAME ONLINE</div>
+          <button class="control-hub-toggle-btn" onclick="toggleControlCenterHubPopup()">SYS DECK</button>
+        </div>
+        <div class="top-right-clock-container">
+          <span class="top-bar-date" id="status-date">00/00/0000</span>
+          <span class="top-bar-time" id="status-time">00:00:00 AM</span>
+        </div>
+      </div>
+
+      <div class="control-center-popup" id="control-center-popup-panel">
+        <div class="cc-slider-row">
+          <div class="cc-label">VOLUME MATRIX <span id="lbl-volume-pct">80%</span></div>
+          <input type="range" class="hud-slider" id="slider-volume" min="0" max="100" value="80" oninput="adjustSystemAudioVolume(this.value)">
+        </div>
+        <div class="cc-slider-row">
+          <div class="cc-label">BRIGHTNESS ARRAY <span id="lbl-brightness-pct">100%</span></div>
+          <input type="range" class="hud-slider" id="slider-brightness" min="10" max="100" value="100" oninput="adjustSystemBrightnessDisplay(this.value)">
+        </div>
+        <div style="border-top:1px solid rgba(255,255,255,0.1); padding-top:8px; display:flex; justify-content:space-between; align-items:center;">
+          <span class="cc-label">AUDIO HAPTICS</span>
+          <button id="toggle-audio-state-btn" class="settings-toggle-btn settings-toggle-active" style="max-width:70px;" onclick="toggleSystemAudioMuteState()">ON</button>
+        </div>
+      </div>
+
+      <div class="search-hub-container">
+        <div class="search-hub-title">Unified Matrix Router Query</div>
+        <form class="search-hub-form" onsubmit="executeNetworkQuerySearch(event)">
+          <select class="search-engine-select" id="engine-router-select">
+            <option value="google">GOOGLE</option>
+            <option value="bing">BING</option>
+            <option value="duck">DUCKGO</option>
+          </select>
+          <input type="text" class="search-hub-input" id="search-hub-input-node" placeholder="Scan global databanks..." autocomplete="off">
+          <button type="submit" class="search-hub-btn">QUERY</button>
+        </form>
+      </div>
+
+      <div class="app-window" id="terminal-window">
+        <div class="window-header" onmousedown="dragWindowStart(event, 'terminal-window')">
+          <div class="window-title">>_ KERNEL TERMINAL SHELL</div>
+          <div class="window-controls"><div class="win-ctrl-btn ctrl-close" onclick="closeAppWindow('terminal-window')"></div></div>
+        </div>
+        <div class="window-body" style="background:#02050a; font-family:monospace; font-size:12px; color:#3bf77c;">
+          <div id="term-history-output" style="flex:1; overflow-y:auto; text-align:left; white-space:pre-wrap;">Cyber-OS Ultimate Kernel initialized.\nType 'help' for directory mapping parameters.</div>
+          <div style="display:flex; align-items:center; border-top:1px solid rgba(59,247,124,0.15); padding-top:4px;">
+            <span style="color:var(--accent-color);">operator@cyberos:~$ </span>
+            <input type="text" id="term-raw-input" style="flex:1; background:none; border:none; outline:none; color:#3bf77c; font-family:monospace;" onkeydown="evaluateTerminalLine(event)" autocomplete="off">
+          </div>
+        </div>
+      </div>
+
+      <div class="app-window" id="notes-window">
+        <div class="window-header" onmousedown="dragWindowStart(event, 'notes-window')">
+          <div class="window-title">📁 CYBER NOTES & MEMORY PARTITIONS</div>
+          <div class="window-controls"><div class="win-ctrl-btn ctrl-close" onclick="closeAppWindow('notes-window')"></div></div>
+        </div>
+        <div class="window-body" style="padding:10px; display:flex; flex-direction:column; gap:8px;">
+          <div style="font-family:'Orbitron'; font-size:10px; color:var(--accent-color);">Virtual Storage Node: /virtual/documents/notes.txt</div>
+          <textarea id="notes-fs-textarea" style="flex:1; background:rgba(0,0,0,0.4); border:1px solid rgba(var(--accent-color-rgb),0.3); border-radius:8px; padding:10px; color:#fff; font-family:'Rajdhani'; font-size:14px; resize:none; outline:none;" placeholder="Write raw operational system log parameters..."></textarea>
+          <button class="bg-btn" style="width:100%; border-color:#00ff66; color:#00ff66;" onclick="saveNotesToPersistentStorage()">COMMIT WRITE TO STORAGE</button>
+        </div>
+      </div>
+
+      <div class="app-window" id="calc-window" style="max-width:260px; height:320px;">
+        <div class="window-header" onmousedown="dragWindowStart(event, 'calc-window')">
+          <div class="window-title">MATH PROCESSOR ENGINE</div>
+          <div class="window-controls"><div class="win-ctrl-btn ctrl-close" onclick="closeAppWindow('calc-window')"></div></div>
+        </div>
+        <div class="window-body">
+          <input type="text" class="calc-screen" id="calc-screen-node" readonly value="0">
+          <div class="calc-buttons">
+            <button class="calc-btn" onclick="appendCalcCharacter('7')">7</button>
+            <button class="calc-btn" onclick="appendCalcCharacter('8')">8</button>
+            <button class="calc-btn" onclick="appendCalcCharacter('9')">9</button>
+            <button class="calc-btn" style="color:var(--accent-color);" onclick="appendCalcCharacter('/')">/</button>
+            <button class="calc-btn" onclick="appendCalcCharacter('4')">4</button>
+            <button class="calc-btn" onclick="appendCalcCharacter('5')">5</button>
+            <button class="calc-btn" onclick="appendCalcCharacter('6')">6</button>
+            <button class="calc-btn" style="color:var(--accent-color);" onclick="appendCalcCharacter('*')">*</button>
+            <button class="calc-btn" onclick="appendCalcCharacter('1')">1</button>
+            <button class="calc-btn" onclick="appendCalcCharacter('2')">2</button>
+            <button class="calc-btn" onclick="appendCalcCharacter('3')">3</button>
+            <button class="calc-btn" style="color:var(--accent-color);" onclick="appendCalcCharacter('-')">-</button>
+            <button class="calc-btn" onclick="clearCalcDisplay()">C</button>
+            <button class="calc-btn" onclick="appendCalcCharacter('0')">0</button>
+            <button class="calc-btn" style="font-weight:bold; color:var(--accent-color);" onclick="executeCalcEvaluation()">=</button>
+            <button class="calc-btn" style="color:var(--accent-color);" onclick="appendCalcCharacter('+')">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="app-window" id="news-window" style="width:400px; height:360px;">
+        <div class="window-header" onmousedown="dragWindowStart(event, 'news-window')">
+          <div class="window-title">⚙ LIVE TELEMETRY LOG PIPELINES</div>
+          <div class="window-controls"><div class="win-ctrl-btn ctrl-close" onclick="closeAppWindow('news-window')"></div></div>
+        </div>
+        <div class="window-body">
+          <div style="font-family:'Orbitron'; font-size:10px; color:var(--accent-color); margin-bottom:10px;">POLLING LIVE HARDWARE AND NETWORK METRICS...</div>
+          <div id="telemetry-live-feed-target">
+            </div>
+        </div>
+      </div>
+
+      <div class="app-window" id="settings-window" style="width:420px; height:390px;">
+        <div class="window-header" onmousedown="dragWindowStart(event, 'settings-window')">
+          <div class="window-title">⚙ DECK CONFIGURATION CONTROLLER</div>
+          <div class="window-controls"><div class="win-ctrl-btn ctrl-close" onclick="closeAppWindow('settings-window')"></div></div>
+        </div>
+        <div class="window-body">
+          <div class="settings-section-title">CHOOSE INTERFACE WALLPAPER</div>
+          <div class="bg-selector-grid">
+            <button class="bg-btn" onclick="changeBackground('space', 'https://wallpapercave.com/wp/wp10224249.jpg')">Neon Horizon</button>
+            <button class="bg-btn" onclick="changeBackground('cyber', 'cyber')">Cyber Preset</button>
+            <button class="bg-btn" onclick="changeBackground('matrix', 'matrix')">Matrix Emerald</button>
+            <button class="bg-btn" onclick="changeBackground('crimson', 'crimson')">Crimson Engine</button>
+          </div>
+          <div class="settings-section-title">INTERFACE CONFIG MATRIX</div>
+          <div class="settings-toggle-row">
+            <span class="settings-checkbox-label" style="font-size:13px;">CLOCK SYSTEM FORMAT</span>
+            <div style="display:flex; gap:5px; width:120px;">
+              <button id="clock-fmt-12h" class="settings-toggle-btn settings-toggle-active" onclick="setClockFormat('12h')">12H</button>
+              <button id="clock-fmt-24h" class="settings-toggle-btn" onclick="setClockFormat('24h')">24H</button>
+            </div>
+          </div>
+          <div class="settings-toggle-row">
+            <span class="settings-checkbox-label" style="font-size:13px;">EMISSION ACCENT COLOR</span>
+            <input type="color" id="settings-accent-picker" class="settings-color-input" style="background:none; border:none; cursor:pointer;" value="#00eeff" onchange="changeAccentColor(this.value)" />
+          </div>
+          <div class="settings-section-title">DOCK ENVIRONMENT POSITION MAPS</div>
+          <div class="settings-toggle-row">
+            <span class="settings-checkbox-label" style="font-size:13px;">ALIGNMENT LAYER</span>
+            <select class="settings-select-input" id="settings-dock-pos-select" style="width:120px;" onchange="setDockPosition(this.value)">
+              <option value="bottom">BOTTOM</option>
+              <option value="left">LEFT DECK</option>
+              <option value="right">RIGHT DECK</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="app-window" id="game-window" style="width:360px; height:410px;">
+        <div class="window-header" style="background:rgba(0,255,102,0.1); border-bottom-color:rgba(0,255,102,0.25)" onmousedown="dragWindowStart(event, 'game-window')">
+          <div class="window-title" style="color:#00ff66;">🎮 GAMERLINK ARCADE SIM MATRIX</div>
+          <div class="window-controls"><div class="win-ctrl-btn ctrl-close" onclick="closeAppWindow('game-window')"></div></div>
+        </div>
+        <div class="window-body" style="background:#020603; padding:12px; overflow:hidden; display:flex; flex-direction:column; border:1px solid rgba(0,255,102,0.15);">
+          
+          <div id="gl-dashboard" class="gl-menu">
+            <div class="gl-item" onclick="switchGamerLinkView('warp')">
+              <div><div class="gl-title">1. WARP ROADWAY</div><p class="gl-desc">Navigate gravitational gates via hyperdrive clicking.</p></div>
+            </div>
+            <div class="gl-item" onclick="switchGamerLinkView('meteor')">
+              <div><div class="gl-title">2. METEOR BLAST</div><p class="gl-desc">Arrow keys move ship, lasers fire automatically.</p></div>
+            </div>
+            <div class="gl-item" onclick="switchGamerLinkView('invaders')">
+              <div><div class="gl-title">3. INTEL INVADERS</div><p class="gl-desc">Clear grid alien elements using coordinate laser bolts.</p></div>
+            </div>
+            <div class="gl-item" onclick="switchGamerLinkView('worm')">
+              <div><div class="gl-title">4. PLASMA MATRIX WORM</div><p class="gl-desc">Steer using arrow vectors to eat red fuel chips.</p></div>
+            </div>
+            <div class="gl-item" onclick="switchGamerLinkView('matrix')">
+              <div><div class="gl-title">5. FREQUENCY SYNCHRONIZER</div><p class="gl-desc">Match sequence flashes on quad node grid.</p></div>
+            </div>
+          </div>
+
+          <div id="gl-stage" style="display:none; flex:1; flex-direction:column; height:100%;">
+            <button class="gl-back-btn" onclick="exitToArcadeDashboard()">[×] DISCONNECT SIMULATION</button>
+            <div style="display:flex; justify-content:space-between; font-family:'Orbitron'; font-size:11px; color:#00ff66; margin-bottom:4px;">
+              <span id="gl-game-title">CORE PIPELINE</span>
+              <span>SCORE: <span id="game-score-label">0</span> | BEST: <span id="game-best-label">0</span></span>
+            </div>
+            <div id="canvas-container-box" style="flex:1; width:100%; position:relative; overflow:hidden; border:1px solid rgba(0,255,102,0.25); border-radius:6px;">
+              <canvas id="warp-game-canvas" style="position:absolute; width:100%; height:100%; display:block; background:#010402; cursor:pointer;"></canvas>
+            </div>
+            <div id="gl-memory-ui" style="display:none; flex-direction:column; width:100%;">
+              <div class="gl-grid-matrix">
+                <div class="gl-matrix-node" id="gl-node-0" onclick="handleMemoryInputNode(0)"></div>
+                <div class="gl-matrix-node" id="gl-node-1" onclick="handleMemoryInputNode(1)"></div>
+                <div class="gl-matrix-node" id="gl-node-2" onclick="handleMemoryInputNode(2)"></div>
+                <div class="gl-matrix-node" id="gl-node-3" onclick="handleMemoryInputNode(3)"></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="app-window" id="audio-window" style="width:340px; height:240px;">
+        <div class="window-header" style="background:rgba(218,165,32,0.08);" onmousedown="dragWindowStart(event, 'audio-window')">
+          <div class="window-title" style="color:gold;">♬ CORE AUDIO STATION SYSTEM</div>
+          <div class="window-controls"><div class="win-ctrl-btn ctrl-close" onclick="closeAppWindow('audio-window')"></div></div>
+        </div>
+        <div class="window-body" style="padding:15px; display:flex; flex-direction:column; gap:6px;">
+          <div style="font-family:'Orbitron'; font-size:10px; color:gold;">Internal Oscillatory Frequency Generation Array</div>
+          <p style="font-size:13px; color:#cbd5e1; margin:2px 0;">Initialize a rhythmic synthetic modular loop sequence to audit live visualizer waves.</p>
+          <div style="display:flex; gap:8px; margin-top:5px;">
+            <button class="bg-btn" style="flex:1; border-color:gold; color:gold;" onclick="startOscillatorMatrixMelodyLoop()">PLAY STATION SECTOR</button>
+            <button class="bg-btn" style="flex:1; border-color:#ff5555; color:#ff5555;" onclick="stopOscillatorMatrixMelodyLoop()">MUTE ARRAY</button>
+          </div>
+          <canvas id="audio-wave-visualizer-node" class="audio-visualizer-canvas"></canvas>
+        </div>
+      </div>
+
+      <div class="dock-trigger-zone zone-bottom" id="dock-trigger-zone-wrapper">
+        <div class="dock-wrapper dock-pos-bottom" id="mac-dock-wrapper">
+          <div class="dock-container dock-size-medium" id="mac-dock-container-node">
+            <div class="app-icon" onclick="openAppWindow('terminal-window')" style="color:#00eeff; border-color:rgba(0,238,255,0.25);"><span class="icon-font-node">>_</span><div class="icon-label">1. Terminal Console</div></div>
+            <div class="app-icon" onclick="openAppWindow('notes-window')" style="color:#9d00ff; border-color:rgba(157,0,255,0.25);"><span class="icon-font-node">📁</span><div class="icon-label">2. Cyber Notes</div></div>
+            <div class="app-icon" onclick="openAppWindow('calc-window')" style="color:#ffa500; border-color:rgba(255,165,0,0.25);"><span class="icon-font-node">🧮</span><div class="icon-label">3. Calculator</div></div>
+            <div class="app-icon" onclick="openAppWindow('game-window')" style="color:#00ff66; border-color:rgba(0,255,102,0.35);"><span class="icon-font-node">🎮</span><div class="icon-label">4. GamerLink Arcade</div></div>
+            <div class="app-icon" onclick="openAppWindow('news-window')" style="color:#ff00ea; border-color:rgba(255,0,234,0.25);"><span class="icon-font-node">⚙</span><div class="icon-label">5. Telemetry Feeds</div></div>
+            <div class="app-icon" onclick="openAppWindow('audio-window')" style="color:gold; border-color:rgba(218,165,32,0.35);"><span class="icon-font-node">♬</span><div class="icon-label">6. Audio Player</div></div>
+            <div class="app-icon" onclick="openAppWindow('settings-window')" style="color:#fff; border-color:rgba(255,255,255,0.25);"><span class="icon-font-node">🔧</span><div class="icon-label">7. Settings Panel</div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    let windowZStack = 100;
+    let soundEnabled = true;
+    let audioCtx = null;
+    let masterGain = null;
+    let audioAnalyserNode = null;
+    let activeDockPosition = 'bottom';
+    let hideTimeoutId = null;
+    let rhythmicLoopIntervalId = null;
+
+    const osSettings = {
+      clockFormat: '12h',
+      themePreset: 'space',
+      wallpaperUrl: 'https://wallpapercave.com/wp/wp10224249.jpg',
+      accentColorHex: '#00eeff',
+      dockPositionAlign: 'bottom'
+    };
+
+    // PERSISTENT MEMORY STORAGE COMPONENT LAYERS
+    function saveSystemConfigurationToLocalStorage() {
+      localStorage.setItem('Cyber_os_config_v03', JSON.stringify(osSettings));
+    }
+
+    function loadAndBootstrapSystemConfiguration() {
+      const stored = localStorage.getItem('Cyber_os_config_v03');
+      if(stored) {
+        try {
+          const parsed = JSON.parse(stored);
+          Object.assign(osSettings, parsed);
+          
+          // Apply options cleanly
+          setClockFormat(osSettings.clockFormat);
+          changeAccentColor(osSettings.accentColorHex);
+          document.getElementById('settings-accent-picker').value = osSettings.accentColorHex;
+          setDockPosition(osSettings.dockPositionAlign);
+          document.getElementById('settings-dock-pos-select').value = osSettings.dockPositionAlign;
+          changeBackground(osSettings.themePreset, osSettings.wallpaperUrl);
+        } catch(e) { console.warn("Memory mapping sector reset:", e); }
+      }
+      
+      const savedNotes = localStorage.getItem('Cyber_os_notes_data');
+      if(savedNotes) {
+        document.getElementById('notes-fs-textarea').value = savedNotes;
+      }
+    }
+
+    function saveNotesToPersistentStorage() {
+      playSystemSound('click');
+      const text = document.getElementById('notes-fs-textarea').value;
+      localStorage.setItem('Cyber_os_notes_data', text);
+      alert('STORAGE SYSTEM: Notes written successfully into virtual sector.');
+    }
+
+    // LIVE HARDWARE PIPELINES & BROWSER SYSTEM DATA 
+    function renderLiveTelemetryDataFeeds() {
+      const target = document.getElementById('telemetry-live-feed-target');
+      if(!target) return;
+
+      let netStatus = navigator.onLine ? "CONNECTED [HYPERTEXT PIPELINE INTERFACE]" : "DISCONNECTED CORE DATA SECTOR";
+      let ramUsageMock = (performance && performance.memory) ? `${Math.round(performance.memory.usedJSHeapSize / 1048576)} MB` : "414 MB MAPPED PAGES";
+      
+      let html = `
+        <div class="news-card">
+          <div class="news-tag">NETWORK ROUTER STATUS</div>
+          <h4 class="news-headline">${netStatus}</h4>
+        </div>
+        <div class="news-card">
+          <div class="news-tag">VIRTUAL ADDRESS MAP RAM MEMORY</div>
+          <h4 class="news-headline">${ramUsageMock} Allocated Heap Storage Array</h4>
+        </div>
+      `;
+
+      // Read Live Battery API Matrix
+      if(navigator.getBattery) {
+        navigator.getBattery().then(bat => {
+          html += `
+            <div class="news-card" style="border-left-color:#ffa500;">
+              <div class="news-tag">HARDWARE BATTERY DECK MATRIX</div>
+              <h4 class="news-headline">System Capacity: ${Math.round(bat.level * 100)}% [${bat.charging ? 'EXTERNAL REACTOR ATTACHED' : 'BATTERY DISCHARGING SECTOR'}]</h4>
+            </div>
+          `;
+          target.innerHTML = html;
+        });
+      } else {
+        html += `
+          <div class="news-card">
+            <div class="news-tag">HARDWARE POWER STORAGE</div>
+            <h4 class="news-headline">Battery Status Blocked or Architecture Non-Compliant</h4>
+          </div>
+        `;
+        target.innerHTML = html;
+      }
+    }
+    setInterval(renderLiveTelemetryDataFeeds, 4000);
+
+    // SYSTEM DOCK AND AUTO-HIDE LAYER ENGINE
+    function initAppleDockAnimationMatrix() {
+      const dockContainer = document.getElementById('mac-dock-container-node');
+      const icons = Array.from(dockContainer.querySelectorAll('.app-icon'));
+
+      dockContainer.addEventListener('mousemove', (e) => {
+        const computedStyle = window.getComputedStyle(dockContainer);
+        const baseSize = parseInt(computedStyle.getPropertyValue('--dock-base-size')) || 44;
+
+        icons.forEach(icon => {
+          const rect = icon.getBoundingClientRect();
+          let distance = 0;
+
+          if (dockContainer.classList.contains('dock-orientation-vertical')) {
+            const iconCenterY = rect.top + rect.height / 2;
+            distance = Math.abs(e.clientY - iconCenterY);
+          } else {
+            const iconCenterX = rect.left + rect.width / 2;
+            distance = Math.abs(e.clientX - iconCenterX);
+          }
+
+          const range = 130;
+          if (distance < range) {
+            const factor = 1 - (distance / range); 
+            const newSize = baseSize + (baseSize * 0.55 * Math.sin(factor * Math.PI / 2));
+            icon.style.width = `${newSize}px`;
+            icon.style.height = `${newSize}px`;
+          } else {
+            icon.style.width = `${baseSize}px`;
+            icon.style.height = `${baseSize}px`;
+          }
+        });
+      });
+
+      dockContainer.addEventListener('mouseleave', () => {
+        const baseSize = window.getComputedStyle(dockContainer).getPropertyValue('--dock-base-size') || '44px';
+        icons.forEach(icon => { icon.style.width = baseSize; icon.style.height = baseSize; });
+      });
+
+      const triggerZone = document.getElementById('dock-trigger-zone-wrapper');
+      const dockWrapper = document.getElementById('mac-dock-wrapper');
+
+      triggerZone.addEventListener('mouseenter', () => {
+        clearTimeout(hideTimeoutId);
+        dockWrapper.classList.remove('dock-hidden-bottom', 'dock-hidden-left', 'dock-hidden-right');
+      });
+
+      triggerZone.addEventListener('mouseleave', () => {
+        clearTimeout(hideTimeoutId);
+        hideTimeoutId = setTimeout(() => {
+          if (activeDockPosition === 'bottom') dockWrapper.classList.add('dock-hidden-bottom');
+          else if (activeDockPosition === 'left') dockWrapper.classList.add('dock-hidden-left');
+          else if (activeDockPosition === 'right') dockWrapper.classList.add('dock-hidden-right');
+        }, 500);
+      });
+    }
+
+    function initAudioContext() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        masterGain = audioCtx.createGain();
+        masterGain.gain.setValueAtTime(0.8, audioCtx.currentTime);
+        
+        audioAnalyserNode = audioCtx.createAnalyser();
+        audioAnalyserNode.fftSize = 64;
+        
+        audioAnalyserNode.connect(masterGain);
+        masterGain.connect(audioCtx.destination);
+      }
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+    }
+
+    function initiateAudioEngine(event) {
+      initAudioContext();
+      playSystemSound('boot');
+      
+      const bootScreen = document.getElementById('boot-screen');
+      const deskLayer = document.getElementById('desktop-surface');
+      const turb = document.getElementById('melt-turbulence');
+      const disp = document.getElementById('melt-displacement');
+      
+      document.getElementById('reactor-trigger-text').textContent = "ONLINE";
+
+      if (turb && disp) {
+        let startTime = performance.now();
+        function stepAnimateMelt() {
+          let elapsed = (performance.now() - startTime) / 1000;
+          if (elapsed < 1.1) {
+            turb.setAttribute('baseFrequency', `${0.02 * elapsed} ${0.1 * elapsed}`);
+            disp.setAttribute('scale', `${120 * elapsed}`);
+            requestAnimationFrame(stepAnimateMelt);
+          }
+        }
+        requestAnimationFrame(stepAnimateMelt);
+      }
+
+      setTimeout(() => { bootScreen.classList.add('warp-active'); }, 100);
+      setTimeout(() => {
+        deskLayer.classList.add('reformed-active');
+        bootScreen.style.pointerEvents = 'none';
+        loadAndBootstrapSystemConfiguration();
+        renderLiveTelemetryDataFeeds();
+        initAppleDockAnimationMatrix();
+        runAudioLiveVisualizerFrameLoop();
+      }, 1100);
+    }
+
+    function playSystemSound(type) {
+      if (!soundEnabled) return;
+      try {
+        initAudioContext();
+        const now = audioCtx.currentTime;
+
+        if (type === 'boot') {
+          const osc1 = audioCtx.createOscillator();
+          const osc2 = audioCtx.createOscillator();
+          const filter = audioCtx.createBiquadFilter();
+          const oscGain = audioCtx.createGain();
+
+          osc1.type = 'sawtooth'; osc2.type = 'square'; filter.type = 'lowpass';
+          osc1.frequency.setValueAtTime(60, now); osc1.frequency.exponentialRampToValueAtTime(280, now + 1.0);
+          osc2.frequency.setValueAtTime(120, now); osc2.frequency.exponentialRampToValueAtTime(560, now + 1.2);
+          
+          filter.frequency.setValueAtTime(200, now); filter.frequency.exponentialRampToValueAtTime(1400, now + 0.8);
+          oscGain.gain.setValueAtTime(0.2, now); oscGain.gain.exponentialRampToValueAtTime(0.001, now + 1.2);
+
+          osc1.connect(filter); osc2.connect(filter); filter.connect(oscGain);
+          oscGain.connect(audioAnalyserNode || audioCtx.destination);
+          osc1.start(now); osc2.start(now); osc1.stop(now + 1.3); osc2.stop(now + 1.3);
+        } else if (type === 'click' || type === 'alert') {
+          const osc = audioCtx.createOscillator();
+          const clickGain = audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(type === 'click' ? 700 : 180, now);
+          clickGain.gain.setValueAtTime(0.15, now);
+          clickGain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+
+          osc.connect(clickGain);
+          clickGain.connect(audioAnalyserNode || audioCtx.destination);
+          osc.start(now); osc.stop(now + 0.15);
+        }
+      } catch (e) { console.warn(e); }
+    }
+
+    // AUDIO PLATFORM OSCILLATOR WAVE SYNTH MUSIC MATRIX
+    function startOscillatorMatrixMelodyLoop() {
+      initAudioContext();
+      if(rhythmicLoopIntervalId) clearInterval(rhythmicLoopIntervalId);
+      
+      let step = 0;
+      const notes = [220, 261, 293, 329, 392, 329, 293, 261];
+      
+      rhythmicLoopIntervalId = setInterval(() => {
+        if(!soundEnabled) return;
+        const now = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        
+        osc.type = (step % 2 === 0) ? 'triangle' : 'sine';
+        osc.frequency.setValueAtTime(notes[step % notes.length], now);
+        
+        gainNode.gain.setValueAtTime(0.12, now);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+        
+        osc.connect(gainNode);
+        gainNode.connect(audioAnalyserNode);
+        
+        osc.start(now);
+        osc.stop(now + 0.4);
+        step++;
+      }, 400);
+    }
+
+    function stopOscillatorMatrixMelodyLoop() {
+      if(rhythmicLoopIntervalId) clearInterval(rhythmicLoopIntervalId);
+    }
+
+    // LIVE CANVAS WAVE GLOW VISUALIZER
+    function runAudioLiveVisualizerFrameLoop() {
+      requestAnimationFrame(runAudioLiveVisualizerFrameLoop);
+      const canvasNode = document.getElementById('audio-wave-visualizer-node');
+      if(!canvasNode) return;
+      const vCtx = canvasNode.getContext('2d');
+      
+      const width = canvasNode.width = canvasNode.clientWidth;
+      const height = canvasNode.height = canvasNode.clientHeight;
+      vCtx.clearRect(0,0,width,height);
+      
+      if(!audioAnalyserNode) return;
+      const bufferLength = audioAnalyserNode.frequencyBinCount;
+      const dataArray = new Uint8Array(bufferLength);
+      audioAnalyserNode.getByteTimeDomainData(dataArray);
+      
+      vCtx.lineWidth = 2;
+      vCtx.strokeStyle = osSettings.accentColorHex;
+      vCtx.shadowBlur = 8;
+      vCtx.shadowColor = osSettings.accentColorHex;
+      vCtx.beginPath();
+      
+      let sliceWidth = width * 1.0 / bufferLength;
+      let x = 0;
+      
+      for(let i = 0; i < bufferLength; i++) {
+        let v = dataArray[i] / 128.0;
+        let y = v * height / 2;
+        if(i === 0) vCtx.moveTo(x, y);
+        else vCtx.lineTo(x, y);
+        x += sliceWidth;
+      }
+      vCtx.lineTo(width, height/2);
+      vCtx.stroke();
+    }
+
+    function runSystemTime() {
+      let now = new Date();
+      const targetDate = document.getElementById('status-date');
+      if(targetDate) targetDate.textContent = `${String(now.getMonth()+1).padStart(2,'0')}/${String(now.getDate()).padStart(2,'0')}/${now.getFullYear()}`;
+
+      let hours = now.getHours();
+      const mins = String(now.getMinutes()).padStart(2,'0');
+      const secs = String(now.getSeconds()).padStart(2,'0');
+      
+      if (osSettings.clockFormat === '12h') {
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12 || 12;
+        document.getElementById('status-time').textContent = `${String(hours).padStart(2,'0')}:${mins}:${secs} ${ampm}`;
+      } else {
+        document.getElementById('status-time').textContent = `${String(hours).padStart(2,'0')}:${mins}:${secs}`;
+      }
+    }
+    setInterval(runSystemTime, 1000);
+
+    const THEME_GRADIENTS = {
+      space: "url('https://wallpapercave.com/wp/wp10224249.jpg') no-repeat center center",
+      cyber: 'radial-gradient(circle at center, #08121e 0%, #03070d 70%, #000000 100%)',
+      matrix: 'radial-gradient(circle at 50% 50%, #031403 0%, #000000 90%)',
+      crimson: 'radial-gradient(circle at 50% 50%, #1e0202 0%, #000000 100%)'
+    };
+
+    function changeBackground(theme, url) {
+      osSettings.themePreset = theme;
+      osSettings.wallpaperUrl = url;
+      saveSystemConfigurationToLocalStorage();
+
+      const workspace = document.getElementById('os-workspace-wrapper');
+      if (!workspace) return;
+      if (url === 'cyber' || url === 'matrix' || url === 'crimson') {
+        workspace.style.background = THEME_GRADIENTS[url];
+      } else if (url) {
+        workspace.style.background = `url('${url}') no-repeat center center`;
+      }
+      workspace.style.backgroundSize = 'cover';
+    }
+
+    function changeAccentColor(hex) {
+      osSettings.accentColorHex = hex;
+      saveSystemConfigurationToLocalStorage();
+      document.documentElement.style.setProperty('--accent-color', hex);
+      const r = parseInt(hex.slice(1,3), 16), g = parseInt(hex.slice(3,5), 16), b = parseInt(hex.slice(5,7), 16);
+      document.documentElement.style.setProperty('--accent-color-rgb', `${r}, ${g}, ${b}`);
+    }
+
+    function setClockFormat(fmt) {
+      osSettings.clockFormat = fmt;
+      saveSystemConfigurationToLocalStorage();
+      document.getElementById('clock-fmt-12h').classList.toggle('settings-toggle-active', fmt === '12h');
+      document.getElementById('clock-fmt-24h').classList.toggle('settings-toggle-active', fmt === '24h');
+      runSystemTime();
+    }
+
+    function setDockPosition(pos) {
+      osSettings.dockPositionAlign = pos;
+      saveSystemConfigurationToLocalStorage();
+      activeDockPosition = pos;
+      
+      const zone = document.getElementById('dock-trigger-zone-wrapper');
+      const dock = document.getElementById('mac-dock-wrapper');
+      const container = document.getElementById('mac-dock-container-node');
+      if(!zone || !dock || !container) return;
+
+      dock.classList.remove('dock-hidden-bottom', 'dock-hidden-left', 'dock-hidden-right');
+      zone.className = `dock-trigger-zone zone-${pos}`;
+      dock.className = `dock-wrapper dock-pos-${pos}`;
+      
+      if(pos === 'left' || pos === 'right') container.classList.add('dock-orientation-vertical');
+      else container.classList.remove('dock-orientation-vertical');
+    }
+
+    function toggleControlCenterHubPopup() {
+      playSystemSound('click');
+      document.getElementById('control-center-popup-panel').classList.toggle('active');
+    }
+
+    function adjustSystemAudioVolume(val) {
+      document.getElementById('lbl-volume-pct').textContent = `${val}%`;
+      if(masterGain && audioCtx) masterGain.gain.setValueAtTime((val / 100) * 0.9, audioCtx.currentTime);
+    }
+
+    function adjustSystemBrightnessDisplay(val) {
+      document.getElementById('lbl-brightness-pct').textContent = `${val}%`;
+      const dimmer = document.getElementById('system-brightness-dimmer');
+      if(dimmer) dimmer.style.opacity = (100 - val) / 100;
+    }
+
+    function toggleSystemAudioMuteState() {
+      soundEnabled = !soundEnabled;
+      const btn = document.getElementById('toggle-audio-state-btn');
+      if(btn) {
+        btn.textContent = soundEnabled ? "ON" : "MUTED";
+        btn.classList.toggle('settings-toggle-active', soundEnabled);
+      }
+    }
+
+    function executeNetworkQuerySearch(event) {
+      event.preventDefault();
+      playSystemSound('click');
+      const query = document.getElementById('search-hub-input-node').value;
+      const engine = document.getElementById('engine-router-select').value;
+      if(!query.trim()) return;
+
+      let url = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+      if(engine === 'bing') url = `https://www.bing.com/search?q=${encodeURIComponent(query)}`;
+      else if(engine === 'duck') url = `https://duckduckgo.com/?q=${encodeURIComponent(query)}`;
+      window.open(url, '_blank');
+    }
+
+    function openAppWindow(id) {
+      playSystemSound('click');
+      const win = document.getElementById(id);
+      if(!win) return;
+      win.classList.add('active');
+      windowZStack++;
+      win.style.zIndex = windowZStack;
+    }
+
+    let currentDragWin = null;
+    let dragOffsetX = 0, dragOffsetY = 0;
+
+    function dragWindowStart(e, id) {
+      currentDragWin = document.getElementById(id);
+      windowZStack++; currentDragWin.style.zIndex = windowZStack;
+      dragOffsetX = e.clientX - currentDragWin.offsetLeft;
+      dragOffsetY = e.clientY - currentDragWin.offsetTop;
+      document.addEventListener('mousemove', dragWindowExecute);
+      document.addEventListener('mouseup', dragWindowStop);
+    }
+    function dragWindowExecute(e) {
+      if (!currentDragWin) return;
+      currentDragWin.style.left = `${e.clientX - dragOffsetX}px`;
+      currentDragWin.style.top = `${e.clientY - dragOffsetY}px`;
+    }
+    function dragWindowStop() { currentDragWin = null; document.removeEventListener('mousemove', dragWindowExecute); document.removeEventListener('mouseup', dragWindowStop); }
+    function closeAppWindow(id) { playSystemSound('click'); const win = document.getElementById(id); if(win) win.classList.remove('active'); if(id === 'game-window') stopArcadeSimulationLoop(); }
+
+    const calcScreen = document.getElementById('calc-screen-node');
+    function appendCalcCharacter(char) { playSystemSound('click'); if(calcScreen.value === '0') calcScreen.value = char; else calcScreen.value += char; }
+    function clearCalcDisplay() { playSystemSound('click'); calcScreen.value = '0'; }
+    function executeCalcEvaluation() { playSystemSound('click'); try { calcScreen.value = eval(calcScreen.value); } catch(e) { calcScreen.value = 'ERROR'; } }
+
+    function evaluateTerminalLine(e) {
+      if(e.key !== 'Enter') return;
+      const inputNode = document.getElementById('term-raw-input');
+      const log = document.getElementById('term-history-output');
+      const cmd = inputNode.value.trim(); inputNode.value = ""; if(!cmd) return;
+
+      playSystemSound('click');
+      let response = `\n> ${cmd}\n`;
+      const args = cmd.toLowerCase().split(' ');
+
+      switch(args[0]) {
+        case 'help':
+          response += "Commands: help, clear, sysinfo, open [app-id]";
+          break;
+        case 'clear': log.innerHTML = ""; return;
+        case 'sysinfo':
+          response += "OS Architecture: Cyber-OS Ultimate v0.3 Core Matrix Layer Enabled.";
+          break;
+        case 'open':
+          if(args[1]) {
+            let winId = args[1].includes('-window') ? args[1] : `${args[1]}-window`;
+            if(document.getElementById(winId)) { openAppWindow(winId); response += `Hooked window pipeline: ${winId}`; }
+            else response += `Sector match for target app identity unknown.`;
+          } else response += "Please supply structural window identity string mapping.";
+          break;
+        default: response += `Instruction array sequence check mapping failed: '${cmd}' unverified.`;
+      }
+      log.innerHTML += response; log.scrollTop = log.scrollHeight;
+    }
+
+    // GAMERLINK 5-GAME COMPREHENSIVE RECONSTRUCT LOGIC
+    let canvas = document.getElementById('warp-game-canvas');
+    let ctx = canvas.getContext('2d');
+    let arcadeMode = 'menu'; let arcadeLoopId = null;
+    let baseWidth = 336, baseHeight = 245;
+
+    let arcadeScores = { warp:0, meteor:0, invaders:0, worm:0, matrix:0 };
+    let arcadeBests = { warp:0, meteor:0, invaders:0, worm:0, matrix:0 };
+    let gameActive = false, gameOverState = false;
+
+    let keyState = {};
+    window.addEventListener('keydown', e => { keyState[e.key] = true; });
+    window.addEventListener('keyup', e => { keyState[e.key] = false; });
+
+    let starsArr = [], spaceEntities = [], wormBody = [], wormDir = {x:1, y:0}, plasmaCell = {x:0, y:0};
+    let memSequence = [], memUserStep = 0, memIsShowing = false;
+    let playerShip = { x: 30, y: 120, v: 0, w: 16, h: 10 };
+
+    function switchGamerLinkView(gameType) {
+      playSystemSound('click');
+      document.getElementById('gl-dashboard').style.display = 'none';
+      document.getElementById('gl-stage').style.display = 'flex';
+      
+      arcadeMode = gameType;
+      document.getElementById('gl-game-title').textContent = gameType.toUpperCase() + " ACTIVE";
+      document.getElementById('game-score-label').textContent = "0";
+      
+      // Pull local high scores if present
+      const localBest = localStorage.getItem(`gl_best_${gameType}`) || 0;
+      arcadeBests[gameType] = parseInt(localBest);
+      document.getElementById('game-best-label').textContent = arcadeBests[gameType];
+      
+      canvas.style.display = (gameType === 'matrix') ? 'none' : 'block';
+      document.getElementById('gl-memory-ui').style.display = (gameType === 'matrix') ? 'flex' : 'none';
+
+      resetSelectedGameCore(gameType);
+      if(arcadeLoopId) cancelAnimationFrame(arcadeLoopId);
+      gameActive = false; gameOverState = false;
+      
+      canvas.removeEventListener('mousedown', handleArcadeStageClick);
+      canvas.addEventListener('mousedown', handleArcadeStageClick);
+      
+      if (arcadeMode !== 'matrix') runArcadeSimulationLoop();
+      else startMemoryMatrixRound();
+    }
+
+    function exitToArcadeDashboard() {
+      playSystemSound('click'); stopArcadeSimulationLoop();
+      document.getElementById('gl-stage').style.display = 'none';
+      document.getElementById('gl-dashboard').style.display = 'grid';
+      arcadeMode = 'menu';
+    }
+
+    function stopArcadeSimulationLoop() { if(arcadeLoopId) cancelAnimationFrame(arcadeLoopId); gameActive = false; }
+
+    function handleArcadeStageClick() {
+      if(gameOverState) { resetSelectedGameCore(arcadeMode); gameOverState = false; gameActive = true; return; }
+      if(!gameActive) { gameActive = true; return; }
+      if(arcadeMode === 'warp') { playerShip.v = -4.0; playSystemSound('click'); }
+    }
+
+    function resetSelectedGameCore(type) {
+      arcadeScores[type] = 0;
+      document.getElementById('game-score-label').textContent = "0";
+      spaceEntities = []; starsArr = [];
+      for(let i=0; i<25; i++) starsArr.push({ x: Math.random()*baseWidth, y: Math.random()*baseHeight, z: Math.random()*baseWidth });
+
+      if(type === 'warp') { playerShip.y = 110; playerShip.v = 0; }
+      else if(type === 'meteor') { playerShip.x = baseWidth/2; playerShip.y = baseHeight - 16; }
+      else if(type === 'invaders') {
+        playerShip.x = baseWidth/2; playerShip.y = baseHeight - 16;
+        for(let r=0; r<3; r++) { for(let c=0; c<6; c++) { spaceEntities.push({ type: 'alien', x: 45 + c*40, y: 30 + r*18, dir: 1, w: 14, h: 10 }); } }
+      }
+      else if(type === 'worm') { wormBody = [{x: 5, y: 10}, {x: 4, y: 10}, {x: 3, y: 10}]; wormDir = { x: 1, y: 0 }; spawnPlasmaCell(); }
+    }
+
+    function spawnPlasmaCell() {
+      plasmaCell.x = Math.floor(Math.random() * (baseWidth / 10 - 2)) + 1;
+      plasmaCell.y = Math.floor(Math.random() * (baseHeight / 10 - 2)) + 1;
+    }
+
+    function runArcadeSimulationLoop() {
+      const container = document.getElementById('canvas-container-box');
+      if (container && (canvas.width !== container.clientWidth || canvas.height !== container.clientHeight)) {
+        canvas.width = container.clientWidth; canvas.height = container.clientHeight;
+      }
+
+      ctx.save(); ctx.fillStyle = '#010502'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.scale(canvas.width / baseWidth, canvas.height / baseHeight);
+
+      ctx.fillStyle = "rgba(0, 255, 102, 0.25)";
+      starsArr.forEach(s => {
+        s.z -= (gameActive && !gameOverState) ? 2.5 : 0.4; if(s.z <= 0) s.z = baseWidth;
+        let sx = ((s.x - baseWidth/2)/s.z)*baseWidth + baseWidth/2;
+        let sy = ((s.y - baseHeight/2)/s.z)*baseHeight + baseHeight/2;
+        if(sx>=0 && sx<baseWidth && sy>=0 && sy<baseHeight) ctx.fillRect(sx, sy, 1.2, 1.2);
+      });
+
+      if(!gameActive && !gameOverState) {
+        ctx.fillStyle = '#00ff66'; ctx.font = "bold 10px 'Orbitron'"; ctx.textAlign = 'center';
+        ctx.fillText('CLICK SIM PLATFORM TO ENGAGE CONTROL', baseWidth/2, baseHeight/2);
+      }
+      if(gameOverState) {
+        ctx.fillStyle = '#ff5555'; ctx.font = "bold 11px 'Orbitron'"; ctx.textAlign = 'center';
+        ctx.fillText('CRITICAL CORE SHIP RECONSTRUCT', baseWidth/2, baseHeight/2);
+      }
+
+      if(gameActive && !gameOverState) executeActiveGameTickLogic();
+      else if(arcadeMode !== 'worm') {
+        ctx.fillStyle = '#00ff66'; ctx.fillRect(playerShip.x, playerShip.y, playerShip.w, playerShip.h);
+      }
+
+      ctx.restore();
+      if(arcadeMode !== 'matrix') arcadeLoopId = requestAnimationFrame(runArcadeSimulationLoop);
+    }
+
+    function executeActiveGameTickLogic() {
+      // 1. Warp Flight Core Simulation Rules
+      if(arcadeMode === 'warp') {
+        playerShip.v += 0.22; playerShip.y += playerShip.v;
+        if(playerShip.y<0 || playerShip.y>baseHeight-10) triggerArcadeGameOver();
+
+        if(Math.random() < 0.02) spaceEntities.push({ type: 'gate', x: baseWidth, gy: Math.random()*(baseHeight-90)+10, gap: 65, passed: false });
+        for(let i=spaceEntities.length-1; i>=0; i--) {
+          let e = spaceEntities[i]; e.x -= 2;
+          ctx.strokeStyle = '#00ff66'; ctx.strokeRect(e.x, 0, 14, e.gy); ctx.strokeRect(e.x, e.gy+e.gap, 14, baseHeight);
+          if(!e.passed && e.x < playerShip.x) { e.passed = true; incrementArcadeScore('warp'); }
+          if(e.x < playerShip.x+16 && e.x+14 > playerShip.x && (playerShip.y < e.gy || playerShip.y+10 > e.gy+e.gap)) triggerArcadeGameOver();
+          if(e.x < -20) spaceEntities.splice(i,1);
+        }
+        ctx.fillStyle = '#00ff66'; ctx.fillRect(playerShip.x, playerShip.y, playerShip.w, playerShip.h);
+      }
+      // 2. Meteor Strike Core Simulation Rules
+      else if(arcadeMode === 'meteor') {
+        if(keyState['ArrowLeft'] && playerShip.x > 4) playerShip.x -= 2.5;
+        if(keyState['ArrowRight'] && playerShip.x < baseWidth - 20) playerShip.x += 2.5;
+
+        if(Math.random() < 0.08) spaceEntities.push({ type: 'laser', x: playerShip.x + 7, y: playerShip.y - 4 });
+        if(Math.random() < 0.035) spaceEntities.push({ type: 'meteor', x: Math.random()*(baseWidth-20), y: -15, size: 12+Math.random()*8 });
+
+        for(let i=spaceEntities.length-1; i>=0; i--) {
+          let e = spaceEntities[i];
+          if(e.type === 'laser') {
+            e.y -= 4.5; ctx.fillStyle = '#00ff66'; ctx.fillRect(e.x, e.y, 2, 5);
+            if(e.y < -10) spaceEntities.splice(i,1);
+          } else if(e.type === 'meteor') {
+            e.y += 1.6; ctx.strokeStyle = '#00ff66'; ctx.strokeRect(e.x, e.y, e.size, e.size);
+            if(e.y > baseHeight || (e.x < playerShip.x+16 && e.x+e.size > playerShip.x && e.y+e.size > playerShip.y)) triggerArcadeGameOver();
+            
+            spaceEntities.forEach((l, lIdx) => {
+              if(l.type === 'laser' && l.x > e.x && l.x < e.x+e.size && l.y > e.y && l.y < e.y+e.size) {
+                spaceEntities.splice(i,1); incrementArcadeScore('meteor');
+              }
+            });
+          }
+        }
+        ctx.fillStyle = '#00ff66'; ctx.fillRect(playerShip.x, playerShip.y, playerShip.w, playerShip.h);
+      }
+      // 3. Space Invaders Core Simulation Rules
+      else if(arcadeMode === 'invaders') {
+        if(keyState['ArrowLeft'] && playerShip.x > 4) playerShip.x -= 2.2;
+        if(keyState['ArrowRight'] && playerShip.x < baseWidth - 20) playerShip.x += 2.2;
+        if(Math.random() < 0.02) spaceEntities.push({ type: 'bullet', x: playerShip.x + 7, y: playerShip.y - 4 });
+
+        let changeDir = false, alienCount = 0;
+        spaceEntities.forEach(e => {
+          if(e.type === 'alien') {
+            alienCount++; e.x += e.dir * 0.4; if(e.x > baseWidth - 18 || e.x < 4) changeDir = true;
+            ctx.strokeStyle = '#00ff66'; ctx.strokeRect(e.x, e.y, e.w, e.h);
+            if(e.y + 10 >= playerShip.y) triggerArcadeGameOver();
+          }
+        });
+
+        if(alienCount === 0) { resetSelectedGameCore('invaders'); return; }
+        if(changeDir) { spaceEntities.forEach(e => { if(e.type === 'alien') { e.dir *= -1; e.y += 6; } }); }
+
+        for(let i=spaceEntities.length-1; i>=0; i--) {
+          let b = spaceEntities[i];
+          if(b.type === 'bullet') {
+            b.y -= 4; ctx.fillStyle = '#00ff66'; ctx.fillRect(b.x, b.y, 2, 5);
+            if(b.y < 0) { spaceEntities.splice(i,1); continue; }
+            spaceEntities.forEach((al, aIdx) => {
+              if(al.type === 'alien' && b.x > al.x && b.x < al.x+al.w && b.y > al.y && b.y < al.y+al.h) {
+                spaceEntities.splice(aIdx, 1); spaceEntities.splice(i,1); incrementArcadeScore('invaders');
+              }
+            });
+          }
+        }
+        ctx.fillStyle = '#00ff66'; ctx.fillRect(playerShip.x, playerShip.y, playerShip.w, playerShip.h);
+      }
+      // 4. Cosmic Worm Core Simulation Rules
+      else if(arcadeMode === 'worm') {
+        if(keyState['ArrowLeft'] && wormDir.x !== 1) wormDir = {x:-1, y:0};
+        if(keyState['ArrowRight'] && wormDir.x !== -1) wormDir = {x:1, y:0};
+        if(keyState['ArrowUp'] && wormDir.y !== 1) wormDir = {x:0, y:-1};
+        if(keyState['ArrowDown'] && wormDir.y !== -1) wormDir = {x:0, y:1};
+
+        if(Math.random() < 0.15) {
+          let head = { x: wormBody[0].x + wormDir.x, y: wormBody[0].y + wormDir.y };
+          if(head.x < 0 || head.x >= baseWidth/10 || head.y < 0 || head.y >= baseHeight/10) { triggerArcoverOverWorm(); return; }
+          for(let part of wormBody) { if(part.x === head.x && part.y === head.y) { triggerArcoverOverWorm(); return; } }
+
+          wormBody.unshift(head);
+          if(head.x === plasmaCell.x && head.y === plasmaCell.y) { incrementArcadeScore('worm'); spawnPlasmaCell(); playSystemSound('click'); }
+          else wormBody.pop();
+        }
+        ctx.fillStyle = '#ff3333'; ctx.fillRect(plasmaCell.x*10, plasmaCell.y*10, 8, 8);
+        ctx.fillStyle = '#00ff66'; wormBody.forEach(p => ctx.fillRect(p.x*10, p.y*10, 8, 8));
+      }
+    }
+
+    function triggerArcoverOverWorm() { triggerArcadeGameOver(); }
+
+    function incrementArcadeScore(game) {
+      arcadeScores[game]++; document.getElementById('game-score-label').textContent = arcadeScores[game];
+      if(arcadeScores[game] > arcadeBests[game]) {
+        arcadeBests[game] = arcadeScores[game];
+        document.getElementById('game-best-label').textContent = arcadeBests[game];
+        localStorage.setItem(`gl_best_${game}`, arcadeBests[game]);
+      }
+    }
+
+    function triggerArcadeGameOver() { gameOverState = true; gameActive = false; playSystemSound('alert'); }
+
+    // 5. Memory Matrix Core Setup
+    function startMemoryMatrixRound() {
+      if(arcadeMode !== 'matrix') return;
+      memIsShowing = true; memUserStep = 0;
+      memSequence.push(Math.floor(Math.random()*4));
+      document.getElementById('game-score-label').textContent = memSequence.length - 1;
+      executeMemoryFlashSequence(0);
+    }
+
+    function executeMemoryFlashSequence(index) {
+      if(arcadeMode !== 'matrix' || index >= memSequence.length) { memIsShowing = false; return; }
+      let nodeIdx = memSequence[index];
+      let elem = document.getElementById(`gl-node-${nodeIdx}`);
+      if(elem) {
+        elem.classList.add('flash'); playSystemSound('click');
+        setTimeout(() => { elem.classList.remove('flash'); setTimeout(() => { executeMemoryFlashSequence(index+1); }, 250); }, 350);
+      }
+    }
+
+    function handleMemoryInputNode(nodeNum) {
+      if(memIsShowing || arcadeMode !== 'matrix') return;
+      if(nodeNum === memSequence[memUserStep]) {
+        memUserStep++;
+        if(memUserStep >= memSequence.length) { incrementArcadeScore('matrix'); setTimeout(() => { startMemoryMatrixRound(); }, 600); }
+      } else {
+        triggerArcadeGameOver(); alert('SIGNAL REBOOTING: FREQUENCY DISCONNECT'); memSequence = []; exitToArcadeDashboard();
+      }
+    }
+  </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cyber-OS Ultimate</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap');
+
+    :root {
+      --accent-color: #00eeff;
+      --accent-color-rgb: 0, 238, 255;
+      --font-scale: 1;
+    }
+
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      width: 100vw;
+      font-family: 'Rajdhani', sans-serif;
+      color: white;
+      text-align: center;
+      overflow: hidden;
+      background: #000000;
+      font-size: calc(16px * var(--font-scale));
+      user-select: none;
+    }
+
+    #system-brightness-dimmer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: black;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 10000;
+      transition: opacity 0.1s ease;
+    }
+
+    #os-workspace-wrapper {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: #04060f radial-gradient(circle at 20% 20%, #1b2845 0%, #04060f 55%, #000000 100%) no-repeat center center;
+      background-size: cover;
+      transition: background-image 0.5s, width 0.4s, height 0.4s, border-radius 0.4s, box-shadow 0.4s, background 0.5s;
+      margin: 0 auto;
+      overflow: hidden;
+      perspective: 1000px;
+    }
+
+    #os-workspace-wrapper.mobile-mode {
+      width: 380px;
+      height: 760px;
+      margin-top: calc((100vh - 760px) / 2);
+      border: 12px solid #141a29;
+      border-radius: 36px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.8), 0 0 0 2px rgba(var(--accent-color-rgb), 0.15);
+    }
+
+    .screen-layer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .intro-load-layer {
+      background: radial-gradient(circle at center, #100202 0%, #000000 100%);
+      z-index: 50;
+      pointer-events: auto;
+      cursor: pointer;
+      opacity: 1;
+      transform: scale(1) translateZ(0);
+      filter: url(#cyber-melt-filter);
+      transition: opacity 1.2s cubic-bezier(0.6, -0.28, 0.735, 0.045),
+                  transform 1.4s cubic-bezier(0.7, 0, 0.3, 1),
+                  filter 1.2s linear;
+    }
+
+    .intro-load-layer.warp-active {
+      transform: scale(3.5) translateZ(300px);
+      opacity: 0;
+    }
+
+    #melt-turbulence {
+      transition: baseFrequency 1.2s cubic-bezier(0.5, 0, 0.7, 0.5);
+    }
+
+    .core-reactor-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 30px;
+      transition: transform 1.2s cubic-bezier(0.7, 0, 0.3, 1);
     }
 
     .core-reactor-logo {
@@ -136,14 +1522,6 @@
       animation: reactorRotate 20s linear infinite;
     }
 
-    .core-reactor-logo::after {
-      content: '';
-      position: absolute;
-      top: -12px; left: 50%; transform: translateX(-50%);
-      width: 4px; height: 12px; background: #ff1111;
-      box-shadow: 0 172px 0 #ff1111, -86px 86px 0 #ff1111, 86px 86px 0 #ff1111;
-    }
-
     @keyframes reactorPulse {
       0%, 100% { transform: scale(1); box-shadow: 0 0 30px rgba(255, 17, 17, 0.4), inset 0 0 25px rgba(255, 17, 17, 0.5); }
       50% { transform: scale(1.03); box-shadow: 0 0 50px rgba(255, 17, 17, 0.7), inset 0 0 40px rgba(255, 17, 17, 0.8); }
@@ -170,6 +1548,53 @@
       transform: scale(1) blur(0px);
     }
 
+    /* Desktop Icons Grid */
+    .desktop-shortcuts-grid {
+      position: absolute;
+      top: 80px;
+      left: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      z-index: 20;
+    }
+
+    .desktop-icon-node {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 70px;
+      cursor: pointer;
+      gap: 6px;
+    }
+
+    .desktop-icon-visual {
+      width: 42px;
+      height: 42px;
+      background: rgba(var(--accent-color-rgb), 0.12);
+      border: 1px solid rgba(var(--accent-color-rgb), 0.3);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .desktop-icon-node:hover .desktop-icon-visual {
+      background: rgba(var(--accent-color-rgb), 0.25);
+      transform: translateY(-2px);
+    }
+
+    .desktop-icon-text {
+      font-size: 11px;
+      font-weight: bold;
+      color: #fff;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+      font-family: 'Orbitron', sans-serif;
+    }
+
     .search-hub-container {
       width: 85%;
       max-width: 440px;
@@ -181,6 +1606,7 @@
       -webkit-backdrop-filter: blur(30px);
       box-shadow: 0 20px 50px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
       margin-bottom: 40px;
+      z-index: 25;
     }
 
     .search-hub-title { font-family: 'Orbitron', sans-serif; font-size: 10px; letter-spacing: 3px; color: var(--accent-color); margin-bottom: 8px; text-transform: uppercase; }
@@ -199,10 +1625,9 @@
       cursor: pointer;
       outline: none;
     }
-    .search-engine-select option { background: #0d1321; color: white; }
     .search-hub-input { flex: 1; padding: 6px 12px; background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(var(--accent-color-rgb), 0.2); border-radius: 6px; color: white; font-family: 'Rajdhani', sans-serif; font-size: 14px; height: 24px; box-sizing: border-box; }
     .search-hub-input:focus { outline: none; border-color: var(--accent-color); box-shadow: 0 0 10px rgba(var(--accent-color-rgb), 0.2); }
-    .search-hub-btn { height: 24px; padding: 0 12px; background: var(--accent-color); border: none; border-radius: 6px; color: #000; font-family: 'Orbitron', sans-serif; font-size: 9px; font-weight: bold; letter-spacing: 1px; display: flex; align-items: center; justify-content: center; cursor: pointer;}
+    .search-hub-btn { height: 24px; padding: 0 12px; background: var(--accent-color); border: none; border-radius: 6px; color: #000; font-family: 'Orbitron', sans-serif; font-size: 9px; font-weight: bold; letter-spacing: 1px; cursor: pointer;}
 
     .top-control-bar {
       position: absolute;
@@ -221,17 +1646,10 @@
       padding: 0 15px;
       box-sizing: border-box;
       z-index: 1001;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
     }
 
     .top-left-modules { display: flex; align-items: center; gap: 12px; font-family: 'Orbitron', sans-serif; font-size: 11px; }
-    .notification-center { color: #ffa500; cursor: pointer; background: rgba(255,165,0,0.08); padding: 4px 8px; border-radius: 6px; border: 1px solid rgba(255,165,0,0.2); transition: all 0.3s ease; }
-    .notification-center.alert-active { background: rgba(255, 17, 17, 0.2); color: #ff1111; border-color: #ff1111; animation: pulseGlow 1s infinite alternate; }
-
-    @keyframes pulseGlow {
-      0% { box-shadow: 0 0 5px rgba(255,11,11,0.2); }
-      100% { box-shadow: 0 0 15px rgba(255,11,11,0.6); }
-    }
+    .notification-center { color: #ffa500; cursor: pointer; background: rgba(255,165,0,0.08); padding: 4px 8px; border-radius: 6px; border: 1px solid rgba(255,165,0,0.2); }
 
     .control-hub-toggle-btn {
       color: var(--accent-color);
@@ -241,9 +1659,7 @@
       border-radius: 6px;
       cursor: pointer;
       font-weight: bold;
-      transition: background 0.2s;
     }
-    .control-hub-toggle-btn:hover { background: rgba(var(--accent-color-rgb), 0.2); }
 
     .top-right-clock-container { display: flex; align-items: center; gap: 10px; font-family: 'Orbitron', sans-serif; font-size: 11px; letter-spacing: 1px; }
     .top-bar-date { color: #8b9bb4; }
@@ -254,7 +1670,7 @@
       top: 65px;
       left: 5%;
       width: 240px;
-      background: rgba(4, 8, 15, 0.75);
+      background: rgba(4, 8, 15, 0.85);
       border: 1px solid rgba(var(--accent-color-rgb), 0.3);
       border-radius: 14px;
       padding: 15px;
@@ -273,143 +1689,47 @@
     .cc-label span { color: var(--accent-color); }
 
     .hud-slider { -webkit-appearance: none; appearance: none; width: 100%; height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; outline: none; margin-top: 4px; }
-    .hud-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; background: var(--accent-color); cursor: pointer; box-shadow: 0 0 8px var(--accent-color); }
+    .hud-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; background: var(--accent-color); cursor: pointer; }
 
-    /* Invisible Trigger & Safe Boundaries Zone for Smart Auto-Hide Features */
+    /* Auto Hide Triggers & Bounds */
     .dock-trigger-zone {
       position: absolute;
       z-index: 999;
       transition: left 0.4s, right 0.4s, top 0.4s, bottom 0.4s;
     }
-    
     .dock-trigger-zone.zone-bottom { bottom: 0; left: 50%; transform: translateX(-50%); padding-bottom: 12px; }
     .dock-trigger-zone.zone-left { left: 0; top: 70px; bottom: 15px; padding-left: 12px; }
     .dock-trigger-zone.zone-right { right: 0; top: 70px; bottom: 15px; padding-right: 12px; }
 
-    /* Taskbar/Dock Structural Foundations */
-    .dock-wrapper { 
-      display: flex; 
-      justify-content: center; 
-      transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s; 
-      opacity: 1;
-    }
-    
+    .dock-wrapper { display: flex; justify-content: center; transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s; opacity: 1; }
     .dock-pos-bottom { height: 90px; width: auto; align-items: flex-end; }
     .dock-pos-left { width: 90px; height: auto; align-items: center; }
     .dock-pos-right { width: 90px; height: auto; align-items: center; }
 
-    /* Smooth Auto Hide Position Transformation Rules */
-    .dock-hidden-bottom { transform: translateY(calc(100% - 15px)); opacity: 0.4; }
-    .dock-hidden-bottom:hover { opacity: 1; }
-    .dock-hidden-left { transform: translateX(calc(-100% + 15px)); opacity: 0.4; }
-    .dock-hidden-left:hover { opacity: 1; }
-    .dock-hidden-right { transform: translateX(calc(100% - 15px)); opacity: 0.4; }
-    .dock-hidden-right:hover { opacity: 1; }
+    .dock-hidden-bottom { transform: translateY(calc(100% - 15px)); opacity: 0.3; }
+    .dock-hidden-left { transform: translateX(calc(-100% + 15px)); opacity: 0.3; }
+    .dock-hidden-right { transform: translateX(calc(100% - 15px)); opacity: 0.3; }
 
-    .dock-container { 
-      display: flex; 
-      align-items: flex-end; 
-      gap: 10px; 
-      background: rgba(4, 8, 16, 0.4); 
-      padding: 10px 16px; 
-      border-radius: 24px; 
-      border: 1px solid rgba(255, 255, 255, 0.15); 
-      backdrop-filter: blur(30px); 
-      -webkit-backdrop-filter: blur(30px); 
-      box-shadow: 0 20px 45px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1); 
-    }
-    
-    .dock-container.dock-orientation-vertical { 
-      flex-direction: column; 
-      align-items: center; 
-      justify-content: flex-start; 
-      max-height: 100%;
-      overflow-y: auto;
-      overflow-x: visible;
-      padding: 16px 10px;
-    }
-    .dock-container.dock-orientation-vertical::-webkit-scrollbar {
-      display: none;
-    }
+    .dock-container { display: flex; align-items: flex-end; gap: 10px; background: rgba(4, 8, 16, 0.45); padding: 10px 16px; border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.15); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); box-shadow: 0 20px 45px rgba(0,0,0,0.5); }
+    .dock-container.dock-orientation-vertical { flex-direction: column; align-items: center; justify-content: flex-start; padding: 16px 10px; }
 
     :root { --dock-base-size: 44px; }
     .dock-container.dock-size-small { --dock-base-size: 34px; }
     .dock-container.dock-size-large { --dock-base-size: 56px; }
 
-    .app-icon { 
-      width: var(--dock-base-size); 
-      height: var(--dock-base-size); 
-      border-radius: 12px; 
-      cursor: pointer; 
-      border: 1px solid rgba(255, 255, 255, 0.1); 
-      display: flex; 
-      flex-direction: column; 
-      align-items: center; 
-      justify-content: center; 
-      flex-shrink: 0; 
-      position: relative;
-      background: rgba(2, 4, 8, 0.75) !important; 
-      transition: width 0.2s cubic-bezier(0.25, 1, 0.5, 1), 
-                  height 0.2s cubic-bezier(0.25, 1, 0.5, 1), 
-                  margin 0.2s cubic-bezier(0.25, 1, 0.5, 1),
-                  border-color 0.2s; 
-      transform-origin: bottom center; 
-    }
+    .app-icon { width: var(--dock-base-size); height: var(--dock-base-size); border-radius: 12px; cursor: pointer; border: 1px solid rgba(255, 255, 255, 0.1); display: flex; align-items: center; justify-content: center; position: relative; background: rgba(2, 4, 8, 0.8) !important; transition: width 0.2s, height 0.2s, border-color 0.2s; transform-origin: bottom center; }
     .dock-orientation-vertical .app-icon { transform-origin: center center; }
+    .app-icon:hover { border-color: rgba(255, 255, 255, 0.45) !important; }
 
-    .app-icon:hover {
-      border-color: rgba(255, 255, 255, 0.45) !important;
-    }
-
-    .icon-label { 
-      font-family: 'Orbitron', sans-serif; 
-      font-size: 8px; 
-      font-weight: 700; 
-      position: absolute;
-      bottom: -22px;
-      white-space: nowrap;
-      opacity: 0;
-      transform: translateY(-4px);
-      transition: opacity 0.2s, transform 0.2s;
-      pointer-events: none;
-      background: rgba(4, 8, 16, 0.95);
-      padding: 4px 8px;
-      border-radius: 6px;
-      border: 1px solid rgba(255,255,255,0.15);
-      color: #fff;
-      letter-spacing: 1px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-      z-index: 2000;
-    }
+    .icon-label { font-family: 'Orbitron', sans-serif; font-size: 8px; font-weight: 700; position: absolute; bottom: -22px; white-space: nowrap; opacity: 0; transform: translateY(-4px); transition: opacity 0.2s, transform 0.2s; pointer-events: none; background: rgba(4, 8, 16, 0.95); padding: 4px 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.15); color: #fff; z-index: 2000; }
     .dock-orientation-vertical .icon-label { bottom: auto; left: calc(100% + 10px); transform: translateX(-4px); }
     .app-icon:hover .icon-label { opacity: 1; transform: translateY(0); }
-    .dock-orientation-vertical .app-icon:hover .icon-label { transform: translateX(0); }
 
-    /* Custom Tech Vector Micro-Icons */
-    .tech-logo-term { display: flex; flex-direction: column; gap: 2px; align-items: flex-start; width: 12px; }
-    .tech-logo-term::before { content: '>'; color: var(--accent-color); font-family: monospace; font-size: 11px; font-weight: bold; line-height: 8px; }
-    .tech-logo-data { display: flex; flex-direction: column; gap: 2px; }
-    .data-node { width: 14px; height: 2px; border: 1px solid #9d00ff; background: rgba(157, 0, 255, 0.2); }
-    .tech-logo-math { width: 12px; height: 12px; border: 1px solid #ffa500; border-radius: 50%; position: relative; display: flex; align-items: center; justify-content: center; }
-    .tech-logo-math::before { content: ''; position: absolute; width: 8px; height: 1px; background: #ffa500; }
-    .tech-logo-math::after { content: ''; position: absolute; width: 1px; height: 8px; background: #ffa500; }
-    .tech-logo-conf { width: 12px; height: 12px; border: 2px dotted #fff; border-radius: 50%; }
-    .tech-logo-gamerlink { width: 16px; height: 16px; position: relative; display: flex; align-items: center; justify-content: center; border: 1px solid #00ff66; border-radius: 4px; background: rgba(0, 255, 102, 0.1); font-family: 'Orbitron', sans-serif; font-size: 8px; font-weight: bold; color: #00ff66; text-shadow: 0 0 4px #00ff66; }
-    .tech-logo-mail { width: 14px; height: 10px; border: 1px solid #ea4335; border-radius: 2px; position: relative; overflow: hidden; }
-    .tech-logo-mail::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-top: 4px solid rgba(234,67,53,0.8); border-left: 6px solid transparent; border-right: 6px solid transparent; box-sizing: border-box; }
-    .tech-logo-spot { width: 14px; height: 14px; border: 1px dashed #1ed760; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-    .tech-logo-spot::after { content: ''; width: 6px; height: 6px; background: #1ed760; border-radius: 50%; }
-    .tech-logo-tube { width: 16px; height: 10px; border: 1px solid #ff0055; border-radius: 3px; background: rgba(255, 0, 85, 0.15); display: flex; align-items: center; justify-content: center; }
-    .tech-logo-tube::after { content: ''; border-left: 4px solid #ff0055; border-top: 2.5px solid transparent; border-bottom: 2.5px solid transparent; margin-left: 2px; }
-    .tech-logo-gemini { width: 14px; height: 14px; position: relative; background: radial-gradient(circle, #7a9eff 0%, transparent 70%); animation: geminiSparkle 4s infinite alternate; }
-    .tech-logo-gemini::before { content: '✦'; color: #9bb6ff; font-size: 16px; position: absolute; top: -4px; left: -1px; text-shadow: 0 0 8px #7a9eff; }
-    .tech-logo-news { width: 14px; height: 12px; border: 1px solid #ff00ea; border-radius: 1px; background: rgba(255,0,234,0.1); position: relative; }
-    .tech-logo-news::before { content: 'N'; font-family: 'Orbitron', sans-serif; font-size: 8px; font-weight: bold; color: #ff00ea; position: absolute; top: 0px; left: 2px; }
+    /* Micro Vectors */
+    .icon-font-node { font-family: 'Orbitron', sans-serif; font-size: 13px; font-weight: bold; }
 
-    @keyframes geminiSparkle { 0% { transform: scale(0.9); opacity: 0.7; } 100% { transform: scale(1.1); opacity: 1; } }
-
-    /* Window UI Systems */
-    .app-window { position: absolute; top: 120px; left: 10%; width: 80%; max-width: 400px; height: 320px; background: rgba(4, 8, 16, 0.7); border: 1px solid rgba(var(--accent-color-rgb), 0.35); border-radius: 16px; display: none; flex-direction: column; overflow: hidden; z-index: 100; box-shadow: 0 30px 70px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.1); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); }
+    /* Window Architecture System */
+    .app-window { position: absolute; top: 120px; left: 15%; width: 80%; max-width: 440px; height: 350px; background: rgba(4, 8, 16, 0.75); border: 1px solid rgba(var(--accent-color-rgb), 0.35); border-radius: 16px; display: none; flex-direction: column; overflow: hidden; z-index: 100; box-shadow: 0 30px 70px rgba(0,0,0,0.6); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); }
     .app-window.active { display: flex !important; }
     .app-window.fullscreen-mode { top: 0 !important; left: 0 !important; width: 100% !important; height: 100% !important; border-radius: 0px !important; max-width: none !important; }
 
@@ -420,69 +1740,45 @@
     .ctrl-min::after { content: ''; width: 8px; height: 2px; background: #ffa500; }
     .ctrl-max::after { content: ''; width: 6px; height: 6px; border: 1px solid var(--accent-color); }
     .ctrl-close { background: rgba(255, 85, 85, 0.15); border: 1px solid #ff5555; }
-    .ctrl-close::after { content: '×'; color: #ff5555; font-size: 11px; font-weight: bold; line-height: 12px; }
+    .ctrl-close::after { content: '×'; color: #ff5555; font-size: 11px; line-height: 12px; }
 
-    .window-body { flex: 1; padding: 15px; display: flex; flex-direction: column; text-align: left; background: rgba(0, 0, 0, 0.15); overflow-y: auto; }
+    .window-body { flex: 1; padding: 15px; display: flex; flex-direction: column; text-align: left; background: rgba(0, 0, 0, 0.2); overflow-y: auto; color: #e2e8f0; }
     .bg-selector-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 10px; }
-    .bg-btn { padding: 10px; font-family: 'Orbitron', sans-serif; font-size: 10px; background: rgba(255,255,255,0.04); border: 1px solid rgba(var(--accent-color-rgb), 0.25); color: white; border-radius: 6px; cursor: pointer; }
+    .bg-btn { padding: 8px; font-family: 'Orbitron', sans-serif; font-size: 10px; background: rgba(255,255,255,0.04); border: 1px solid rgba(var(--accent-color-rgb), 0.25); color: white; border-radius: 6px; cursor: pointer; }
 
-    /* Preference Panel Classes */
-    .settings-section-title { color: var(--accent-color); font-family: 'Orbitron', sans-serif; font-size: 12px; margin: 16px 0 8px 0; letter-spacing: 1px; }
-    .settings-section-title:first-child { margin-top: 0; }
-    .settings-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 8px; }
-    .settings-toggle-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
-    .settings-toggle-btn { flex: 1; padding: 8px 6px; font-family: 'Orbitron', sans-serif; font-size: 9px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.15); color: #a0aec0; border-radius: 6px; cursor: pointer; transition: all 0.2s; }
+    .settings-section-title { color: var(--accent-color); font-family: 'Orbitron', sans-serif; font-size: 11px; margin: 12px 0 6px 0; letter-spacing: 1px; text-transform: uppercase; border-bottom: 1px solid rgba(var(--accent-color-rgb), 0.15); padding-bottom: 2px;}
+    .settings-toggle-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
+    .settings-toggle-btn { flex: 1; padding: 6px; font-family: 'Orbitron', sans-serif; font-size: 9px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.15); color: #a0aec0; border-radius: 6px; cursor: pointer; }
     .settings-toggle-btn.settings-toggle-active { background: rgba(var(--accent-color-rgb), 0.15); border-color: var(--accent-color); color: var(--accent-color); font-weight: bold; }
-    .settings-checkbox-label { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #d0dcff; cursor: pointer; }
-    .settings-color-input { width: 36px; height: 28px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.2); cursor: pointer; background: none; padding: 0; }
-    .settings-select-input { background: rgba(0,0,0,0.5); border: 1px solid rgba(var(--accent-color-rgb), 0.3); color: white; border-radius: 6px; padding: 6px 8px; font-family: 'Rajdhani', sans-serif; font-size: 13px; }
-    .settings-file-label { display: inline-block; padding: 8px 14px; background: rgba(var(--accent-color-rgb), 0.1); border: 1px solid rgba(var(--accent-color-rgb), 0.3); color: var(--accent-color); border-radius: 6px; font-family: 'Orbitron', sans-serif; font-size: 10px; cursor: pointer; }
-
-    html.reduce-motion *, html.reduce-motion *::before, html.reduce-motion *::after {
-      animation-duration: 0.001s !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.001s !important;
-    }
+    .settings-select-input { background: #0d1321; border: 1px solid rgba(var(--accent-color-rgb), 0.3); color: white; border-radius: 6px; padding: 4px 6px; font-family: 'Rajdhani', sans-serif; }
 
     /* Calculator Architecture Styles */
-    .calc-screen { width: 100%; height: 45px; background: rgba(0,0,0,0.4); border-radius: 6px; margin-bottom: 10px; text-align: right; padding: 10px; box-sizing: border-box; font-size: 20px; font-family: 'Orbitron', monospace; border: 1px solid rgba(var(--accent-color-rgb), 0.25); color: var(--accent-color); }
+    .calc-screen { width: 100%; height: 40px; background: rgba(0,0,0,0.5); border-radius: 6px; margin-bottom: 10px; text-align: right; padding: 10px; box-sizing: border-box; font-size: 18px; font-family: 'Orbitron', monospace; border: 1px solid rgba(var(--accent-color-rgb), 0.25); color: var(--accent-color); }
     .calc-buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; flex: 1; }
-    .calc-btn { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; color: white; font-size: 14px; cursor: pointer; }
+    .calc-btn { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; color: white; font-size: 14px; cursor: pointer; font-family: 'Orbitron'; }
 
-    /* Gemini Application Layout Components */
-    .gemini-chat-container { display: flex; flex-direction: column; height: 100%; }
-    .gemini-history-log { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding-right: 4px; margin-bottom: 10px; }
-    .gemini-history-log::-webkit-scrollbar { width: 4px; }
-    .gemini-history-log::-webkit-scrollbar-thumb { background: rgba(var(--accent-color-rgb), 0.3); border-radius: 2px; }
-    .gemini-chat-row { display: flex; flex-direction: column; padding: 10px 12px; border-radius: 8px; text-align: left; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); margin-bottom: 4px; }
-    .gemini-input-area { display: flex; gap: 8px; }
-    .gemini-chat-textbox { flex: 1; background: rgba(0,0,0,0.4); border: 1px solid rgba(var(--accent-color-rgb), 0.25); border-radius: 8px; color: white; padding: 8px 12px; font-family: 'Rajdhani', sans-serif; font-size: 13px; outline: none; }
-    .gemini-chat-textbox:focus { border-color: var(--accent-color); }
-    .gemini-send-btn { background: #7a9eff; color: black; border: none; padding: 0 14px; border-radius: 6px; font-family: 'Orbitron', sans-serif; font-size: 10px; font-weight: bold; cursor: pointer; }
+    /* Audio Window Canvas Wave Visualizer Layout */
+    .audio-visualizer-canvas { width: 100%; height: 60px; background: rgba(0,0,0,0.4); border-radius: 8px; border: 1px solid rgba(var(--accent-color-rgb), 0.2); margin-top: 10px; }
 
-    /* Telemetry Window Components */
-    .news-stream-container { display: flex; flex-direction: column; gap: 10px; }
-    .news-card { background: rgba(255,255,255,0.03); border-left: 3px solid #ff00ea; padding: 10px; border-radius: 0 6px 6px 0; border-top: 1px solid rgba(255,255,255,0.05); }
-    .news-tag { font-family: 'Orbitron', sans-serif; font-size: 8px; color: #ff00ea; letter-spacing: 1px; margin-bottom: 2px; text-transform: uppercase; }
-    .news-headline { font-size: 13px; font-weight: bold; color: #ffffff; margin: 0 0 4px 0; }
-    .news-body-text { font-size: 11px; color: #a0aec0; margin: 0; }
-    .news-meta { font-size: 9px; color: rgba(255,255,255,0.3); margin-top: 4px; font-family: 'Orbitron', sans-serif; }
+    .news-card { background: rgba(255,255,255,0.03); border-left: 3px solid var(--accent-color); padding: 8px 12px; border-radius: 0 6px 6px 0; margin-bottom: 8px; }
+    .news-tag { font-family: 'Orbitron', sans-serif; font-size: 8px; color: var(--accent-color); letter-spacing: 1px; text-transform: uppercase; }
+    .news-headline { font-size: 13px; font-weight: bold; margin: 2px 0; color: #fff; }
 
-    /* GamerLink Styles */
-    .gl-menu { display: grid; grid-template-columns: 1fr; gap: 8px; padding: 5px; }
-    .gl-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(0, 255, 102, 0.2); border-radius: 8px; padding: 10px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: all 0.2s; }
+    .gl-menu { display: grid; grid-template-columns: 1fr; gap: 8px; }
+    .gl-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(0, 255, 102, 0.2); border-radius: 8px; padding: 8px 12px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
     .gl-item:hover { background: rgba(0, 255, 102, 0.08); border-color: #00ff66; }
-    .gl-title { font-family: 'Orbitron', sans-serif; font-size: 12px; color: #00ff66; font-weight: bold; }
-    .gl-desc { font-size: 11px; color: #a0aec0; margin: 2px 0 0 0; text-align: left; }
-    .gl-back-btn { font-family: 'Orbitron', sans-serif; font-size: 10px; background: rgba(255,255,255,0.05); border: 1px solid #ff5555; color: #ff5555; padding: 4px 10px; border-radius: 4px; cursor: pointer; margin-bottom: 8px; align-self: flex-start; }
+    .gl-title { font-family: 'Orbitron', sans-serif; font-size: 11px; color: #00ff66; font-weight: bold; }
+    .gl-desc { font-size: 11px; color: #a0aec0; margin: 0; text-align: left; }
+    .gl-back-btn { font-family: 'Orbitron', sans-serif; font-size: 9px; background: rgba(255,255,255,0.05); border: 1px solid #ff5555; color: #ff5555; padding: 4px 8px; border-radius: 4px; cursor: pointer; margin-bottom: 8px; align-self: flex-start; }
+    
     .gl-grid-matrix { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 5px; width: 100%; box-sizing: border-box; }
-    .gl-matrix-node { height: 70px; background: rgba(255,255,255,0.02); border: 1px solid rgba(0,255,102,0.2); border-radius: 8px; cursor: pointer; transition: background 0.1s; }
+    .gl-matrix-node { height: 65px; background: rgba(255,255,255,0.02); border: 1px solid rgba(0,255,102,0.2); border-radius: 8px; cursor: pointer; }
     .gl-matrix-node.flash { background: #00ff66 !important; box-shadow: 0 0 15px #00ff66; }
   </style>
 </head>
 <body>
 
-  <svg style="position: absolute; width: 0; height: 0;" width="0; height: 0;">
+  <svg style="position: absolute; width: 0; height: 0;">
     <defs>
       <filter id="cyber-melt-filter">
         <feTurbulence type="fractalNoise" id="melt-turbulence" baseFrequency="0.00001 0.00001" numOctaves="2" result="noise" />
@@ -498,18 +1794,30 @@
     <div class="screen-layer intro-load-layer" id="boot-screen" onclick="initiateAudioEngine(event)">
       <div class="core-reactor-container">
         <div class="core-reactor-logo" id="reactor-trigger-text">ENGAGE</div>
-        <div style="text-align: center;">
-          <h1 style="font-family: 'Orbitron', sans-serif; font-size: 32px; margin: 0; letter-spacing: 5px; color: #ff1111; text-shadow: 0 0 15px rgba(255,17,17,0.6);">Keshav-OS</h1>
-          <p style="font-size: 14px; letter-spacing: 2px; color: #8b9bb4; margin: 5px 0 0 0; text-transform: uppercase;">Tap Core Node to Bootstrap Workspace</p>
+        <div>
+          <h1 style="font-family: 'Orbitron', sans-serif; font-size: 32px; margin: 0; letter-spacing: 5px; color: #ff1111;">Cyber-OS</h1>
+          <p style="font-size: 13px; letter-spacing: 2px; color: #8b9bb4; text-transform: uppercase; margin: 4px 0 0 0;">Tap Core Node to Mount Matrix</p>
         </div>
       </div>
     </div>
 
     <div class="screen-layer desktop-layer" id="desktop-surface">
 
+      <div class="desktop-shortcuts-grid">
+        <div class="desktop-icon-node" ondblclick="openAppWindow('terminal-window')" onclick="playSystemSound('click')">
+          <div class="desktop-icon-visual">🖳</div><div class="desktop-icon-text">Terminal</div>
+        </div>
+        <div class="desktop-icon-node" ondblclick="openAppWindow('notes-window')" onclick="playSystemSound('click')">
+          <div class="desktop-icon-visual">📁</div><div class="desktop-icon-text">Notes</div>
+        </div>
+        <div class="desktop-icon-node" ondblclick="openAppWindow('game-window')" onclick="playSystemSound('click')">
+          <div class="desktop-icon-visual">🎮</div><div class="desktop-icon-text">Arcade</div>
+        </div>
+      </div>
+
       <div class="top-control-bar">
         <div class="top-left-modules">
-          <div id="hud-alert-center" class="notification-center alert-active" onclick="acknowledgeActiveTelemetry()">CORE TELEMETRY INCOMING</div>
+          <div id="hud-alert-center" class="notification-center" style="color:#00ff66; background:rgba(0,255,102,0.05); border-color:rgba(0,255,102,0.2);">OS MAINFRAME ONLINE</div>
           <button class="control-hub-toggle-btn" onclick="toggleControlCenterHubPopup()">SYS DECK</button>
         </div>
         <div class="top-right-clock-container">
@@ -521,11 +1829,11 @@
       <div class="control-center-popup" id="control-center-popup-panel">
         <div class="cc-slider-row">
           <div class="cc-label">VOLUME MATRIX <span id="lbl-volume-pct">80%</span></div>
-          <input type="range" class="hud-slider" min="0" max="100" value="80" oninput="adjustSystemAudioVolume(this.value)">
+          <input type="range" class="hud-slider" id="slider-volume" min="0" max="100" value="80" oninput="adjustSystemAudioVolume(this.value)">
         </div>
         <div class="cc-slider-row">
           <div class="cc-label">BRIGHTNESS ARRAY <span id="lbl-brightness-pct">100%</span></div>
-          <input type="range" class="hud-slider" min="10" max="100" value="100" oninput="adjustSystemBrightnessDisplay(this.value)">
+          <input type="range" class="hud-slider" id="slider-brightness" min="10" max="100" value="100" oninput="adjustSystemBrightnessDisplay(this.value)">
         </div>
         <div style="border-top:1px solid rgba(255,255,255,0.1); padding-top:8px; display:flex; justify-content:space-between; align-items:center;">
           <span class="cc-label">AUDIO HAPTICS</span>
@@ -548,46 +1856,34 @@
 
       <div class="app-window" id="terminal-window">
         <div class="window-header" onmousedown="dragWindowStart(event, 'terminal-window')">
-          <div class="window-title">>_ KERNEL TERMINAL MODULE</div>
-          <div class="window-controls">
-            <div class="win-ctrl-btn ctrl-min" onclick="minimizeAppWindow('terminal-window')"></div>
-            <div class="win-ctrl-btn ctrl-max" onclick="maximizeAppWindow('terminal-window')"></div>
-            <div class="win-ctrl-btn ctrl-close" onclick="closeAppWindow('terminal-window')"></div>
-          </div>
+          <div class="window-title">>_ KERNEL TERMINAL SHELL</div>
+          <div class="window-controls"><div class="win-ctrl-btn ctrl-close" onclick="closeAppWindow('terminal-window')"></div></div>
         </div>
-        <div class="window-body" style="background:#02050a; font-family:monospace; font-size:12px; color:#3bf77c; box-shadow:inset 0 0 15px rgba(0,0,0,0.8);">
-          <div id="term-history-output" style="flex:1; overflow-y:auto; text-align:left; white-space:pre-wrap; line-height:1.4; margin-bottom:8px;">CyberOS Kernel v0.2.1 initialized successfully.<br>Type 'help' or 'clear' to execute core instruction pipelines.</div>
-          <div style="display:flex; align-items:center; border-top:1px solid rgba(59,247,124,0.15); padding-top:6px;">
-            <span style="color:var(--accent-color); font-weight:bold;">operator@cyberos:~$ </span>
-            <input type="text" id="term-raw-input" style="flex:1; background:none; border:none; outline:none; color:#3bf77c; font-family:monospace; font-size:12px;" onkeydown="evaluateTerminalLine(event)" autocomplete="off">
+        <div class="window-body" style="background:#02050a; font-family:monospace; font-size:12px; color:#3bf77c;">
+          <div id="term-history-output" style="flex:1; overflow-y:auto; text-align:left; white-space:pre-wrap;">Cyber-OS Ultimate Kernel initialized.\nType 'help' for directory mapping parameters.</div>
+          <div style="display:flex; align-items:center; border-top:1px solid rgba(59,247,124,0.15); padding-top:4px;">
+            <span style="color:var(--accent-color);">operator@cyberos:~$ </span>
+            <input type="text" id="term-raw-input" style="flex:1; background:none; border:none; outline:none; color:#3bf77c; font-family:monospace;" onkeydown="evaluateTerminalLine(event)" autocomplete="off">
           </div>
         </div>
       </div>
 
-      <div class="app-window" id="viewer-window">
-        <div class="window-header" onmousedown="dragWindowStart(event, 'viewer-window')">
-          <div class="window-title">CENTRAL DATA GRID EXPLORER</div>
-          <div class="window-controls">
-            <div class="win-ctrl-btn ctrl-min" onclick="minimizeAppWindow('viewer-window')"></div>
-            <div class="win-ctrl-btn ctrl-max" onclick="maximizeAppWindow('viewer-window')"></div>
-            <div class="win-ctrl-btn ctrl-close" onclick="closeAppWindow('viewer-window')"></div>
-          </div>
+      <div class="app-window" id="notes-window">
+        <div class="window-header" onmousedown="dragWindowStart(event, 'notes-window')">
+          <div class="window-title">📁 CYBER NOTES & MEMORY PARTITIONS</div>
+          <div class="window-controls"><div class="win-ctrl-btn ctrl-close" onclick="closeAppWindow('notes-window')"></div></div>
         </div>
-        <div class="window-body" style="font-family: monospace; font-size:12px; line-height:1.5;">
-          <div style="color:var(--accent-color); font-weight:bold; margin-bottom:8px;">Active Registry Partition: /dev/sda1/main_cluster</div>
-          <p>System Architecture configuration details: [Status Protected]<br>Telemetry Matrix Array mapped cleanly across virtual address maps.</p>
-          <div style="margin-top:auto; color:rgba(255,255,255,0.4); font-size:10px;">Sector Read Hash Code: Ox7AF329EE11</div>
+        <div class="window-body" style="padding:10px; display:flex; flex-direction:column; gap:8px;">
+          <div style="font-family:'Orbitron'; font-size:10px; color:var(--accent-color);">Virtual Storage Node: /virtual/documents/notes.txt</div>
+          <textarea id="notes-fs-textarea" style="flex:1; background:rgba(0,0,0,0.4); border:1px solid rgba(var(--accent-color-rgb),0.3); border-radius:8px; padding:10px; color:#fff; font-family:'Rajdhani'; font-size:14px; resize:none; outline:none;" placeholder="Write raw operational system log parameters..."></textarea>
+          <button class="bg-btn" style="width:100%; border-color:#00ff66; color:#00ff66;" onclick="saveNotesToPersistentStorage()">COMMIT WRITE TO STORAGE</button>
         </div>
       </div>
 
-      <div class="app-window" id="calc-window" style="max-width:280px; height:340px;">
+      <div class="app-window" id="calc-window" style="max-width:260px; height:320px;">
         <div class="window-header" onmousedown="dragWindowStart(event, 'calc-window')">
-          <div class="window-title">MATH ENGINE PROCESSOR</div>
-          <div class="window-controls">
-            <div class="win-ctrl-btn ctrl-min" onclick="minimizeAppWindow('calc-window')"></div>
-            <div class="win-ctrl-btn ctrl-max" onclick="maximizeAppWindow('calc-window')"></div>
-            <div class="win-ctrl-btn ctrl-close" onclick="closeAppWindow('calc-window')"></div>
-          </div>
+          <div class="window-title">MATH PROCESSOR ENGINE</div>
+          <div class="window-controls"><div class="win-ctrl-btn ctrl-close" onclick="closeAppWindow('calc-window')"></div></div>
         </div>
         <div class="window-body">
           <input type="text" class="calc-screen" id="calc-screen-node" readonly value="0">
@@ -612,147 +1908,90 @@
         </div>
       </div>
 
-      <div class="app-window" id="news-window" style="width:450px; height:380px;">
+      <div class="app-window" id="news-window" style="width:400px; height:360px;">
         <div class="window-header" onmousedown="dragWindowStart(event, 'news-window')">
-          <div class="window-title">LIVE CORE TELEMETRY RELEASES</div>
-          <div class="window-controls">
-            <div class="win-ctrl-btn ctrl-min" onclick="minimizeAppWindow('news-window')"></div>
-            <div class="win-ctrl-btn ctrl-max" onclick="maximizeAppWindow('news-window')"></div>
-            <div class="win-ctrl-btn ctrl-close" onclick="closeAppWindow('news-window')"></div>
-          </div>
+          <div class="window-title">⚙ LIVE TELEMETRY LOG PIPELINES</div>
+          <div class="window-controls"><div class="win-ctrl-btn ctrl-close" onclick="closeAppWindow('news-window')"></div></div>
         </div>
         <div class="window-body">
-          <div class="news-stream-container" id="news-feed-target-root">
-          </div>
+          <div style="font-family:'Orbitron'; font-size:10px; color:var(--accent-color); margin-bottom:10px;">POLLING LIVE HARDWARE AND NETWORK METRICS...</div>
+          <div id="telemetry-live-feed-target">
+            </div>
         </div>
       </div>
 
-      <div class="app-window" id="settings-window">
+      <div class="app-window" id="settings-window" style="width:420px; height:390px;">
         <div class="window-header" onmousedown="dragWindowStart(event, 'settings-window')">
-          <div class="window-title">⚙️ DECK CONFIGURATION CONTROL</div>
-          <div class="window-controls">
-            <div class="win-ctrl-btn ctrl-min" onclick="closeAppWindow('settings-window')"></div>
-            <div class="win-ctrl-btn ctrl-max" onclick="maximizeAppWindow('settings-window')"></div>
-            <div class="win-ctrl-btn ctrl-close" onclick="closeAppWindow('settings-window')"></div>
-          </div>
+          <div class="window-title">⚙ DECK CONFIGURATION CONTROLLER</div>
+          <div class="window-controls"><div class="win-ctrl-btn ctrl-close" onclick="closeAppWindow('settings-window')"></div></div>
         </div>
         <div class="window-body">
           <div class="settings-section-title">CHOOSE INTERFACE WALLPAPER</div>
           <div class="bg-selector-grid">
-            <button class="bg-btn" onclick="changeBackground('neon-grid', 'https://m.media-amazon.com/images/I/61ndFKqd8KL.jpg')">Cyber City</button>
-            <button class="bg-btn" onclick="changeBackground('digital-mesh', 'https://t4.ftcdn.net/jpg/01/98/49/61/360_F_198496190_TRgMtAnmx20H51DgZdCX5zgphwXynuQ7.jpg')">Neon Grid</button>
-            <button class="bg-btn" onclick="changeBackground('matrix-glow', 'https://t4.ftcdn.net/jpg/01/89/57/07/360_F_189570717_FLQ8DjMtYUM9eTgK9ocNhLdik5mJzRj4.jpg')">Abstract Tech</button>
-            <button class="bg-btn" onclick="changeBackground('neon-horizon', 'https://wallpapercave.com/wp/wp10224249.jpg')">Neon Horizon</button>
-            <button class="bg-btn" onclick="changeBackground('cyber-grid', 'cyber')">Cyber Preset</button>
-            <button class="bg-btn" onclick="changeBackground('matrix-code', 'matrix')">Matrix Code</button>
-            <button class="bg-btn" onclick="changeBackground('crimson-reactor', 'crimson')">Crimson Reactor</button>
-            <button class="bg-btn" onclick="changeBackground('default-void', '')">Default Void</button>
+            <button class="bg-btn" onclick="changeBackground('space', 'https://wallpapercave.com/wp/wp10224249.jpg')">Neon Horizon</button>
+            <button class="bg-btn" onclick="changeBackground('cyber', 'cyber')">Cyber Preset</button>
+            <button class="bg-btn" onclick="changeBackground('matrix', 'matrix')">Matrix Emerald</button>
+            <button class="bg-btn" onclick="changeBackground('crimson', 'crimson')">Crimson Engine</button>
           </div>
-
-          <div class="settings-section-title">INTERFACE CALIBRATION</div>
+          <div class="settings-section-title">INTERFACE CONFIG MATRIX</div>
           <div class="settings-toggle-row">
-            <span class="settings-checkbox-label">CLOCK MODE</span>
+            <span class="settings-checkbox-label" style="font-size:13px;">CLOCK SYSTEM FORMAT</span>
             <div style="display:flex; gap:5px; width:120px;">
               <button id="clock-fmt-12h" class="settings-toggle-btn settings-toggle-active" onclick="setClockFormat('12h')">12H</button>
               <button id="clock-fmt-24h" class="settings-toggle-btn" onclick="setClockFormat('24h')">24H</button>
             </div>
           </div>
-
           <div class="settings-toggle-row">
-            <span class="settings-checkbox-label">ACCENT EMISSION</span>
-            <input type="color" class="settings-color-input" value="#00eeff" onchange="changeAccentColor(this.value)" />
+            <span class="settings-checkbox-label" style="font-size:13px;">EMISSION ACCENT COLOR</span>
+            <input type="color" id="settings-accent-picker" class="settings-color-input" style="background:none; border:none; cursor:pointer;" value="#00eeff" onchange="changeAccentColor(this.value)" />
           </div>
-
+          <div class="settings-section-title">DOCK ENVIRONMENT POSITION MAPS</div>
           <div class="settings-toggle-row">
-            <span class="settings-checkbox-label">ACCESSIBILITY PROTOCOL</span>
-            <label class="settings-checkbox-label">
-              <input type="checkbox" id="motion-reduction-switch" onchange="toggleSystemMotionReduction(this.checked)"> Reduce Animations
-            </label>
-          </div>
-
-          <div class="settings-section-title">WORKSPACE FORMAT</div>
-          <div class="settings-toggle-row">
-            <span class="settings-checkbox-label">WORKSPACE MODE</span>
-            <div style="display:flex; gap:5px; width:120px;">
-              <button id="layout-desktop-btn" class="settings-toggle-btn settings-toggle-active" onclick="setDesktopLayoutMode('desktop')">DESK</button>
-              <button id="layout-mobile-btn" class="settings-toggle-btn" onclick="setDesktopLayoutMode('mobile')">MOBILE</button>
-            </div>
-          </div>
-
-          <div class="settings-section-title">DOCK ENVIRONMENT PANEL</div>
-          <div class="settings-toggle-row">
-            <span class="settings-checkbox-label">DOCK LOCATION</span>
-            <select class="settings-select-input" style="width:120px;" onchange="setDockPosition(this.value)">
+            <span class="settings-checkbox-label" style="font-size:13px;">ALIGNMENT LAYER</span>
+            <select class="settings-select-input" id="settings-dock-pos-select" style="width:120px;" onchange="setDockPosition(this.value)">
               <option value="bottom">BOTTOM</option>
               <option value="left">LEFT DECK</option>
               <option value="right">RIGHT DECK</option>
             </select>
           </div>
-
-          <div class="settings-toggle-row">
-            <span class="settings-checkbox-label">DOCK METRIC SCALE</span>
-            <select class="settings-select-input" style="width:120px;" onchange="adjustSystemDockScaleSize(this.value)">
-              <option value="small">SMALL SIZING</option>
-              <option value="medium" selected>STANDARD</option>
-              <option value="large">OVERSIZED</option>
-            </select>
-          </div>
-
-          <div class="settings-section-title">LOCAL MEMORY FILE SYNC</div>
-          <div class="settings-row">
-            <label class="settings-file-label" for="wallpaper-upload-node">MOUNT EXTERNAL WALLPAPER</label>
-            <input type="file" id="wallpaper-upload-node" accept="image/*" style="display:none;" onchange="uploadCustomWallpaper(event)">
-          </div>
         </div>
       </div>
 
-      <div class="app-window" id="game-window" style="width:360px; height:390px;">
-        <div class="window-header" style="background:rgba(0,255,102,0.1); border-bottom-color:rgba(0,255,102,0.2)" onmousedown="dragWindowStart(event, 'game-window')">
-          <div class="window-title" style="color:#00ff66;">🎮 GAMERLINK STELLAR ARCADE</div>
-          <div class="window-controls">
-            <div class="win-ctrl-btn ctrl-min" onclick="closeAppWindow('game-window')"></div>
-            <div class="win-ctrl-btn ctrl-max" onclick="maximizeAppWindow('game-window')"></div>
-            <div class="win-ctrl-btn ctrl-close" onclick="closeAppWindow('game-window')"></div>
-          </div>
+      <div class="app-window" id="game-window" style="width:360px; height:410px;">
+        <div class="window-header" style="background:rgba(0,255,102,0.1); border-bottom-color:rgba(0,255,102,0.25)" onmousedown="dragWindowStart(event, 'game-window')">
+          <div class="window-title" style="color:#00ff66;">🎮 GAMERLINK ARCADE SIM MATRIX</div>
+          <div class="window-controls"><div class="win-ctrl-btn ctrl-close" onclick="closeAppWindow('game-window')"></div></div>
         </div>
-        <div class="window-body" style="padding: 12px; background: #010502; overflow: hidden; display: flex; flex-direction: column;">
+        <div class="window-body" style="background:#020603; padding:12px; overflow:hidden; display:flex; flex-direction:column; border:1px solid rgba(0,255,102,0.15);">
           
           <div id="gl-dashboard" class="gl-menu">
-            <div style="font-family:'Orbitron',sans-serif; font-size:10px; color:#00ff66; letter-spacing:2px; margin-bottom:5px; text-transform:uppercase;">Select Cosmic Protocol:</div>
             <div class="gl-item" onclick="switchGamerLinkView('warp')">
-              <div><div class="gl-title">1. WARP FLIGHT</div><p class="gl-desc">Maintain hyperdrive equilibrium through asteroid gates.</p></div>
-              <span style="font-family:'Orbitron'; font-size:10px; color:#00ff66;">>></span>
+              <div><div class="gl-title">1. WARP ROADWAY</div><p class="gl-desc">Navigate gravitational gates via hyperdrive clicking.</p></div>
             </div>
             <div class="gl-item" onclick="switchGamerLinkView('meteor')">
-              <div><div class="gl-title">2. METEOR STRIKE</div><p class="gl-desc">Blast incoming meteors before your hull collapses.</p></div>
-              <span style="font-family:'Orbitron'; font-size:10px; color:#00ff66;">>></span>
+              <div><div class="gl-title">2. METEOR BLAST</div><p class="gl-desc">Arrow keys move ship, lasers fire automatically.</p></div>
             </div>
             <div class="gl-item" onclick="switchGamerLinkView('invaders')">
-              <div><div class="gl-title">3. SPACE INVADERS</div><p class="gl-desc">Defend your coordinates against standard grid aliens.</p></div>
-              <span style="font-family:'Orbitron'; font-size:10px; color:#00ff66;">>></span>
+              <div><div class="gl-title">3. INTEL INVADERS</div><p class="gl-desc">Clear grid alien elements using coordinate laser bolts.</p></div>
             </div>
             <div class="gl-item" onclick="switchGamerLinkView('worm')">
-              <div><div class="gl-title">4. COSMIC WORM</div><p class="gl-desc">Collect solar cells without clipping your tail framework.</p></div>
-              <span style="font-family:'Orbitron'; font-size:10px; color:#00ff66;">>></span>
+              <div><div class="gl-title">4. PLASMA MATRIX WORM</div><p class="gl-desc">Steer using arrow vectors to eat red fuel chips.</p></div>
             </div>
             <div class="gl-item" onclick="switchGamerLinkView('matrix')">
-              <div><div class="gl-title">5. ALIEN MEMORY MATRIX</div><p class="gl-desc">Synchronize with glowing quadrant frequencies.</p></div>
-              <span style="font-family:'Orbitron'; font-size:10px; color:#00ff66;">>></span>
+              <div><div class="gl-title">5. FREQUENCY SYNCHRONIZER</div><p class="gl-desc">Match sequence flashes on quad node grid.</p></div>
             </div>
           </div>
 
-          <div id="gl-stage" style="display:none; flex:1; flex-direction:column; height: 100%;">
-            <button class="gl-back-btn" onclick="exitToArcadeDashboard()">[×] TERMINATE SIMULATION</button>
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; font-family:'Orbitron',sans-serif; font-size:11px; color:#00ff66;">
-              <span id="gl-game-title">SIMULATION ACTIVE</span>
+          <div id="gl-stage" style="display:none; flex:1; flex-direction:column; height:100%;">
+            <button class="gl-back-btn" onclick="exitToArcadeDashboard()">[×] DISCONNECT SIMULATION</button>
+            <div style="display:flex; justify-content:space-between; font-family:'Orbitron'; font-size:11px; color:#00ff66; margin-bottom:4px;">
+              <span id="gl-game-title">CORE PIPELINE</span>
               <span>SCORE: <span id="game-score-label">0</span> | BEST: <span id="game-best-label">0</span></span>
             </div>
-            
-            <div id="canvas-container-box" style="flex: 1; width:100%; position: relative; overflow: hidden; border:1px solid rgba(0,255,102,0.3); border-radius:8px;">
-              <canvas id="warp-game-canvas" style="position: absolute; top:0; left:0; width:100%; height:100%; background:#020804; cursor:pointer; display:block;"></canvas>
+            <div id="canvas-container-box" style="flex:1; width:100%; position:relative; overflow:hidden; border:1px solid rgba(0,255,102,0.25); border-radius:6px;">
+              <canvas id="warp-game-canvas" style="position:absolute; width:100%; height:100%; display:block; background:#010402; cursor:pointer;"></canvas>
             </div>
-            
-            <div id="gl-memory-ui" style="display:none; flex-direction:column; align-items:center; width:100%;">
+            <div id="gl-memory-ui" style="display:none; flex-direction:column; width:100%;">
               <div class="gl-grid-matrix">
                 <div class="gl-matrix-node" id="gl-node-0" onclick="handleMemoryInputNode(0)"></div>
                 <div class="gl-matrix-node" id="gl-node-1" onclick="handleMemoryInputNode(1)"></div>
@@ -765,66 +2004,32 @@
         </div>
       </div>
 
-      <div class="app-window" id="gemini-window" style="width:440px; height:360px;">
-        <div class="window-header" style="background: rgba(122, 158, 255, 0.08); border-bottom-color: rgba(122,158,255,0.2);" onmousedown="dragWindowStart(event, 'gemini-window')">
-          <span class="window-title" style="color: #7a9eff;">🌌 GEMINI AI COGNITION ENGINE</span>
-          <div class="window-controls">
-            <div class="win-ctrl-btn ctrl-min" onclick="closeAppWindow('gemini-window')"></div>
-            <div class="win-ctrl-btn ctrl-max" onclick="maximizeAppWindow('gemini-window')"></div>
-            <div class="win-ctrl-btn ctrl-close" onclick="closeAppWindow('gemini-window')"></div>
-          </div>
+      <div class="app-window" id="audio-window" style="width:340px; height:240px;">
+        <div class="window-header" style="background:rgba(218,165,32,0.08);" onmousedown="dragWindowStart(event, 'audio-window')">
+          <div class="window-title" style="color:gold;">♬ CORE AUDIO STATION SYSTEM</div>
+          <div class="window-controls"><div class="win-ctrl-btn ctrl-close" onclick="closeAppWindow('audio-window')"></div></div>
         </div>
-        <div class="window-body">
-          <div class="gemini-chat-container">
-            <div id="gemini-terminal-log" class="gemini-history-log">
-              <div class="gemini-chat-row">
-                <div class="news-tag" style="color: #7a9eff;">GEMINI CORE PROTOCOL</div>
-                <p class="news-headline" style="font-size:13px; line-height: 1.4; font-family: 'Rajdhani', sans-serif;">
-                  Mainframe core online. Standing by for dynamic logic parameters, tactical telemetry queries, or calculation routines.
-                </p>
-              </div>
-            </div>
-            <div class="gemini-input-area">
-              <input type="text" id="gemini-textbox-node" class="gemini-chat-textbox" placeholder="Broadcast string vector to Core AI..." onkeydown="if(event.key==='Enter') executeGeminiAIPromptQuery()">
-              <button class="gemini-send-btn" onclick="executeGeminiAIPromptQuery()">SEND</button>
-            </div>
+        <div class="window-body" style="padding:15px; display:flex; flex-direction:column; gap:6px;">
+          <div style="font-family:'Orbitron'; font-size:10px; color:gold;">Internal Oscillatory Frequency Generation Array</div>
+          <p style="font-size:13px; color:#cbd5e1; margin:2px 0;">Initialize a rhythmic synthetic modular loop sequence to audit live visualizer waves.</p>
+          <div style="display:flex; gap:8px; margin-top:5px;">
+            <button class="bg-btn" style="flex:1; border-color:gold; color:gold;" onclick="startOscillatorMatrixMelodyLoop()">PLAY STATION SECTOR</button>
+            <button class="bg-btn" style="flex:1; border-color:#ff5555; color:#ff5555;" onclick="stopOscillatorMatrixMelodyLoop()">MUTE ARRAY</button>
           </div>
+          <canvas id="audio-wave-visualizer-node" class="audio-visualizer-canvas"></canvas>
         </div>
       </div>
 
       <div class="dock-trigger-zone zone-bottom" id="dock-trigger-zone-wrapper">
         <div class="dock-wrapper dock-pos-bottom" id="mac-dock-wrapper">
           <div class="dock-container dock-size-medium" id="mac-dock-container-node">
-            <div class="app-icon" data-index="0" onclick="openAppWindow('terminal-window')" style="color: #00eeff; border-color: rgba(0,238,255,0.25);">
-              <div class="tech-logo-term"></div><div class="icon-label">1. TERMINAL SHELL</div>
-            </div>
-            <div class="app-icon" data-index="1" onclick="openAppWindow('viewer-window')" style="color: #9d00ff; border-color: rgba(157,0,255,0.25);">
-              <div class="tech-logo-data"><div class="data-node"></div><div class="data-node"></div><div class="data-node"></div></div><div class="icon-label">2. FILE EXPLORER</div>
-            </div>
-            <div class="app-icon" data-index="2" onclick="openAppWindow('calc-window')" style="color: #ffa500; border-color: rgba(255,165,0,0.25);">
-              <div class="tech-logo-math"></div><div class="icon-label">3. CORE CALCULATOR</div>
-            </div>
-            <div class="app-icon" data-index="3" onclick="openAppWindow('game-window')" style="color: #00ff66; border-color: rgba(0,255,102,0.35);">
-              <div class="tech-logo-gamerlink">G</div><div class="icon-label">GamerLink</div>
-            </div>
-            <div class="app-icon" data-index="4" onclick="openAppWindow('news-window')" style="color: #ff00ea; border-color: rgba(255,0,234,0.25);">
-              <div class="tech-logo-news"></div><div class="icon-label">4. TELEMETRY FEEDS</div>
-            </div>
-            <div class="app-icon" data-index="5" onclick="openAppWindow('gemini-window')" style="color: #7a9eff; border-color: rgba(122,158,255,0.35);">
-              <div class="tech-logo-gemini"></div><div class="icon-label">5. AI ENGINE</div>
-            </div>
-            <div class="app-icon" data-index="6" onclick="openAppWindow('settings-window')" style="color: #ffffff; border-color: rgba(255,255,255,0.25);">
-              <div class="tech-logo-conf"></div><div class="icon-label">6. SYSTEM CONTROL</div>
-            </div>
-            <div class="app-icon" data-index="7" onclick="launchExternalWebLinkRouter('gmail')" style="color: #ea4335; border-color: rgba(234,67,53,0.25);">
-              <div class="tech-logo-mail"></div><div class="icon-label">7. GOOGLE MAIL</div>
-            </div>
-            <div class="app-icon" data-index="8" onclick="launchExternalWebLinkRouter('spotify')" style="color: #1ed760; border-color: rgba(30,215,96,0.25);">
-              <div class="tech-logo-spot"></div><div class="icon-label">8. SPOTIFY PLAYER</div>
-            </div>
-            <div class="app-icon" data-index="9" onclick="launchExternalWebLinkRouter('youtube')" style="color: #ff0055; border-color: rgba(255,0,85,0.25);">
-              <div class="tech-logo-tube"></div><div class="icon-label">9. YOUTUBE MEDIA</div>
-            </div>
+            <div class="app-icon" onclick="openAppWindow('terminal-window')" style="color:#00eeff; border-color:rgba(0,238,255,0.25);"><span class="icon-font-node">>_</span><div class="icon-label">1. Terminal Console</div></div>
+            <div class="app-icon" onclick="openAppWindow('notes-window')" style="color:#9d00ff; border-color:rgba(157,0,255,0.25);"><span class="icon-font-node">📁</span><div class="icon-label">2. Cyber Notes</div></div>
+            <div class="app-icon" onclick="openAppWindow('calc-window')" style="color:#ffa500; border-color:rgba(255,165,0,0.25);"><span class="icon-font-node">🧮</span><div class="icon-label">3. Calculator</div></div>
+            <div class="app-icon" onclick="openAppWindow('game-window')" style="color:#00ff66; border-color:rgba(0,255,102,0.35);"><span class="icon-font-node">🎮</span><div class="icon-label">4. GamerLink Arcade</div></div>
+            <div class="app-icon" onclick="openAppWindow('news-window')" style="color:#ff00ea; border-color:rgba(255,0,234,0.25);"><span class="icon-font-node">⚙</span><div class="icon-label">5. Telemetry Feeds</div></div>
+            <div class="app-icon" onclick="openAppWindow('audio-window')" style="color:gold; border-color:rgba(218,165,32,0.35);"><span class="icon-font-node">♬</span><div class="icon-label">6. Audio Player</div></div>
+            <div class="app-icon" onclick="openAppWindow('settings-window')" style="color:#fff; border-color:rgba(255,255,255,0.25);"><span class="icon-font-node">🔧</span><div class="icon-label">7. Settings Panel</div></div>
           </div>
         </div>
       </div>
@@ -837,56 +2042,102 @@
     let soundEnabled = true;
     let audioCtx = null;
     let masterGain = null;
+    let audioAnalyserNode = null;
     let activeDockPosition = 'bottom';
     let hideTimeoutId = null;
+    let rhythmicLoopIntervalId = null;
 
     const osSettings = {
       clockFormat: '12h',
-      timezone: 'local'
+      themePreset: 'space',
+      wallpaperUrl: 'https://wallpapercave.com/wp/wp10224249.jpg',
+      accentColorHex: '#00eeff',
+      dockPositionAlign: 'bottom'
     };
 
-    const SAMPLE_TELEMETRY = [
-      { tag: "KERNEL PROCESS CORE", title: "Hypervisor Arrays Mapped Cleanly into parallel execution layers.", meta: "TELEM DISPATCH • JUST NOW", activeAlert: true },
-      { tag: "GAMERLINK MATRIX", title: "Arcade core loaded: 5 space simulations safely compiled.", meta: "ARCADE DECK • 1M AGO", activeAlert: false },
-      { tag: "CRYPTO ALGO ENCRYPT", title: "Quantum Signatures Regenerated. Automated keys rotated.", meta: "CORE LAYER • 2M AGO", activeAlert: false },
-      { tag: "WORKSPACE REFORM", title: "Custom environment background grids configured.", meta: "SYS SYSTEM SET • 4M AGO", activeAlert: false }
-    ];
-
-    function renderDynamicTelemetryFeeds() {
-      const root = document.getElementById('news-feed-target-root');
-      if(!root) return;
-      root.innerHTML = "";
-      SAMPLE_TELEMETRY.forEach(item => {
-        const line = document.createElement('div');
-        line.className = "news-card";
-        if(item.activeAlert) {
-          line.style.borderColor = "#ff1111";
-        }
-        line.innerHTML = `
-          <div class="news-tag" style="color: ${item.activeAlert ? '#ff1111' : 'var(--accent-color)'};">${item.tag}</div>
-          <h4 class="news-headline">${item.title}</h4>
-          <div class="news-meta"><span>${item.meta}</span></div>
-        `;
-        root.appendChild(line);
-      });
+    // PERSISTENT MEMORY STORAGE COMPONENT LAYERS
+    function saveSystemConfigurationToLocalStorage() {
+      localStorage.setItem('Cyber_os_config_v03', JSON.stringify(osSettings));
     }
 
-    function acknowledgeActiveTelemetry() {
-      playSystemSound('click');
-      const banner = document.getElementById('hud-alert-center');
-      if(banner) {
-        banner.textContent = "SYSTEM DECK CLEAR";
-        banner.className = "notification-center";
+    function loadAndBootstrapSystemConfiguration() {
+      const stored = localStorage.getItem('Cyber_os_config_v03');
+      if(stored) {
+        try {
+          const parsed = JSON.parse(stored);
+          Object.assign(osSettings, parsed);
+          
+          // Apply options cleanly
+          setClockFormat(osSettings.clockFormat);
+          changeAccentColor(osSettings.accentColorHex);
+          document.getElementById('settings-accent-picker').value = osSettings.accentColorHex;
+          setDockPosition(osSettings.dockPositionAlign);
+          document.getElementById('settings-dock-pos-select').value = osSettings.dockPositionAlign;
+          changeBackground(osSettings.themePreset, osSettings.wallpaperUrl);
+        } catch(e) { console.warn("Memory mapping sector reset:", e); }
+      }
+      
+      const savedNotes = localStorage.getItem('Cyber_os_notes_data');
+      if(savedNotes) {
+        document.getElementById('notes-fs-textarea').value = savedNotes;
       }
     }
 
+    function saveNotesToPersistentStorage() {
+      playSystemSound('click');
+      const text = document.getElementById('notes-fs-textarea').value;
+      localStorage.setItem('Cyber_os_notes_data', text);
+      alert('STORAGE SYSTEM: Notes written successfully into virtual sector.');
+    }
+
+    // LIVE HARDWARE PIPELINES & BROWSER SYSTEM DATA 
+    function renderLiveTelemetryDataFeeds() {
+      const target = document.getElementById('telemetry-live-feed-target');
+      if(!target) return;
+
+      let netStatus = navigator.onLine ? "CONNECTED [HYPERTEXT PIPELINE INTERFACE]" : "DISCONNECTED CORE DATA SECTOR";
+      let ramUsageMock = (performance && performance.memory) ? `${Math.round(performance.memory.usedJSHeapSize / 1048576)} MB` : "414 MB MAPPED PAGES";
+      
+      let html = `
+        <div class="news-card">
+          <div class="news-tag">NETWORK ROUTER STATUS</div>
+          <h4 class="news-headline">${netStatus}</h4>
+        </div>
+        <div class="news-card">
+          <div class="news-tag">VIRTUAL ADDRESS MAP RAM MEMORY</div>
+          <h4 class="news-headline">${ramUsageMock} Allocated Heap Storage Array</h4>
+        </div>
+      `;
+
+      // Read Live Battery API Matrix
+      if(navigator.getBattery) {
+        navigator.getBattery().then(bat => {
+          html += `
+            <div class="news-card" style="border-left-color:#ffa500;">
+              <div class="news-tag">HARDWARE BATTERY DECK MATRIX</div>
+              <h4 class="news-headline">System Capacity: ${Math.round(bat.level * 100)}% [${bat.charging ? 'EXTERNAL REACTOR ATTACHED' : 'BATTERY DISCHARGING SECTOR'}]</h4>
+            </div>
+          `;
+          target.innerHTML = html;
+        });
+      } else {
+        html += `
+          <div class="news-card">
+            <div class="news-tag">HARDWARE POWER STORAGE</div>
+            <h4 class="news-headline">Battery Status Blocked or Architecture Non-Compliant</h4>
+          </div>
+        `;
+        target.innerHTML = html;
+      }
+    }
+    setInterval(renderLiveTelemetryDataFeeds, 4000);
+
+    // SYSTEM DOCK AND AUTO-HIDE LAYER ENGINE
     function initAppleDockAnimationMatrix() {
       const dockContainer = document.getElementById('mac-dock-container-node');
       const icons = Array.from(dockContainer.querySelectorAll('.app-icon'));
 
       dockContainer.addEventListener('mousemove', (e) => {
-        if(document.documentElement.classList.contains('reduce-motion')) return;
-
         const computedStyle = window.getComputedStyle(dockContainer);
         const baseSize = parseInt(computedStyle.getPropertyValue('--dock-base-size')) || 44;
 
@@ -902,10 +2153,10 @@
             distance = Math.abs(e.clientX - iconCenterX);
           }
 
-          const range = 150;
+          const range = 130;
           if (distance < range) {
             const factor = 1 - (distance / range); 
-            const newSize = baseSize + (baseSize * 0.65 * Math.sin(factor * Math.PI / 2));
+            const newSize = baseSize + (baseSize * 0.55 * Math.sin(factor * Math.PI / 2));
             icon.style.width = `${newSize}px`;
             icon.style.height = `${newSize}px`;
           } else {
@@ -916,15 +2167,10 @@
       });
 
       dockContainer.addEventListener('mouseleave', () => {
-        const computedStyle = window.getComputedStyle(dockContainer);
-        const baseSize = computedStyle.getPropertyValue('--dock-base-size') || '44px';
-        icons.forEach(icon => {
-          icon.style.width = baseSize;
-          icon.style.height = baseSize;
-        });
+        const baseSize = window.getComputedStyle(dockContainer).getPropertyValue('--dock-base-size') || '44px';
+        icons.forEach(icon => { icon.style.width = baseSize; icon.style.height = baseSize; });
       });
 
-      // Automated Hide Setup Routines
       const triggerZone = document.getElementById('dock-trigger-zone-wrapper');
       const dockWrapper = document.getElementById('mac-dock-wrapper');
 
@@ -939,7 +2185,7 @@
           if (activeDockPosition === 'bottom') dockWrapper.classList.add('dock-hidden-bottom');
           else if (activeDockPosition === 'left') dockWrapper.classList.add('dock-hidden-left');
           else if (activeDockPosition === 'right') dockWrapper.classList.add('dock-hidden-right');
-        }, 400); // Small delay to guarantee no disruptive snapping
+        }, 500);
       });
     }
 
@@ -948,11 +2194,14 @@
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         masterGain = audioCtx.createGain();
         masterGain.gain.setValueAtTime(0.8, audioCtx.currentTime);
+        
+        audioAnalyserNode = audioCtx.createAnalyser();
+        audioAnalyserNode.fftSize = 64;
+        
+        audioAnalyserNode.connect(masterGain);
         masterGain.connect(audioCtx.destination);
       }
-      if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
-      }
+      if (audioCtx.state === 'suspended') audioCtx.resume();
     }
 
     function initiateAudioEngine(event) {
@@ -963,9 +2212,8 @@
       const deskLayer = document.getElementById('desktop-surface');
       const turb = document.getElementById('melt-turbulence');
       const disp = document.getElementById('melt-displacement');
-      const triggerText = document.getElementById('reactor-trigger-text');
       
-      if(triggerText) triggerText.textContent = "ONLINE";
+      document.getElementById('reactor-trigger-text').textContent = "ONLINE";
 
       if (turb && disp) {
         let startTime = performance.now();
@@ -984,19 +2232,11 @@
       setTimeout(() => {
         deskLayer.classList.add('reformed-active');
         bootScreen.style.pointerEvents = 'none';
+        loadAndBootstrapSystemConfiguration();
+        renderLiveTelemetryDataFeeds();
         initAppleDockAnimationMatrix();
+        runAudioLiveVisualizerFrameLoop();
       }, 1100);
-    }
-
-    function generateHapticNoiseBuffer() {
-      if(!audioCtx) return null;
-      const bufferSize = audioCtx.sampleRate * 0.04;
-      const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-      const data = buffer.getChannelData(0);
-      for (let i = 0; i < bufferSize; i++) {
-        data[i] = Math.random() * 2 - 1;
-      }
-      return buffer;
     }
 
     function playSystemSound(type) {
@@ -1011,180 +2251,160 @@
           const filter = audioCtx.createBiquadFilter();
           const oscGain = audioCtx.createGain();
 
-          osc1.type = 'sawtooth';
-          osc2.type = 'square';
-          filter.type = 'lowpass';
+          osc1.type = 'sawtooth'; osc2.type = 'square'; filter.type = 'lowpass';
+          osc1.frequency.setValueAtTime(60, now); osc1.frequency.exponentialRampToValueAtTime(280, now + 1.0);
+          osc2.frequency.setValueAtTime(120, now); osc2.frequency.exponentialRampToValueAtTime(560, now + 1.2);
+          
+          filter.frequency.setValueAtTime(200, now); filter.frequency.exponentialRampToValueAtTime(1400, now + 0.8);
+          oscGain.gain.setValueAtTime(0.2, now); oscGain.gain.exponentialRampToValueAtTime(0.001, now + 1.2);
 
-          osc1.frequency.setValueAtTime(60, now);
-          osc1.frequency.exponentialRampToValueAtTime(280, now + 1.0);
-          osc2.frequency.setValueAtTime(120, now);
-          osc2.frequency.exponentialRampToValueAtTime(560, now + 1.2);
-
-          filter.frequency.setValueAtTime(200, now);
-          filter.frequency.exponentialRampToValueAtTime(1400, now + 0.8);
-
-          oscGain.gain.setValueAtTime(0.3, now);
-          oscGain.gain.exponentialRampToValueAtTime(0.001, now + 1.2);
-
-          osc1.connect(filter);
-          osc2.connect(filter);
-          filter.connect(oscGain);
-          oscGain.connect(masterGain);
-
-          osc1.start(now);
-          osc2.start(now);
-          osc1.stop(now + 1.3);
-          osc2.stop(now + 1.3);
+          osc1.connect(filter); osc2.connect(filter); filter.connect(oscGain);
+          oscGain.connect(audioAnalyserNode || audioCtx.destination);
+          osc1.start(now); osc2.start(now); osc1.stop(now + 1.3); osc2.stop(now + 1.3);
         } else if (type === 'click' || type === 'alert') {
           const osc = audioCtx.createOscillator();
           const clickGain = audioCtx.createGain();
           osc.type = 'sine';
-          osc.frequency.setValueAtTime(type === 'click' ? 800 : 150, now);
-          if(type === 'click') osc.frequency.exponentialRampToValueAtTime(300, now + 0.08);
-
-          clickGain.gain.setValueAtTime(type === 'click' ? 0.15 : 0.4, now);
-          clickGain.gain.exponentialRampToValueAtTime(0.001, now + (type === 'click' ? 0.08 : 0.25));
+          osc.frequency.setValueAtTime(type === 'click' ? 700 : 180, now);
+          clickGain.gain.setValueAtTime(0.15, now);
+          clickGain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
 
           osc.connect(clickGain);
-          clickGain.connect(masterGain);
-          osc.start(now);
-          osc.stop(now + 0.3);
-
-          if (type === 'click') {
-            const noise = audioCtx.createBufferSource();
-            noise.buffer = generateHapticNoiseBuffer();
-            if(noise.buffer) {
-              const noiseGain = audioCtx.createGain();
-              noiseGain.gain.setValueAtTime(0.04, now);
-              noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 0.03);
-              noise.connect(noiseGain);
-              noiseGain.connect(masterGain);
-              noise.start(now);
-            }
-          }
+          clickGain.connect(audioAnalyserNode || audioCtx.destination);
+          osc.start(now); osc.stop(now + 0.15);
         }
-      } catch (e) { console.warn("Audio context safe blocked: ", e); }
+      } catch (e) { console.warn(e); }
+    }
+
+    // AUDIO PLATFORM OSCILLATOR WAVE SYNTH MUSIC MATRIX
+    function startOscillatorMatrixMelodyLoop() {
+      initAudioContext();
+      if(rhythmicLoopIntervalId) clearInterval(rhythmicLoopIntervalId);
+      
+      let step = 0;
+      const notes = [220, 261, 293, 329, 392, 329, 293, 261];
+      
+      rhythmicLoopIntervalId = setInterval(() => {
+        if(!soundEnabled) return;
+        const now = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        
+        osc.type = (step % 2 === 0) ? 'triangle' : 'sine';
+        osc.frequency.setValueAtTime(notes[step % notes.length], now);
+        
+        gainNode.gain.setValueAtTime(0.12, now);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+        
+        osc.connect(gainNode);
+        gainNode.connect(audioAnalyserNode);
+        
+        osc.start(now);
+        osc.stop(now + 0.4);
+        step++;
+      }, 400);
+    }
+
+    function stopOscillatorMatrixMelodyLoop() {
+      if(rhythmicLoopIntervalId) clearInterval(rhythmicLoopIntervalId);
+    }
+
+    // LIVE CANVAS WAVE GLOW VISUALIZER
+    function runAudioLiveVisualizerFrameLoop() {
+      requestAnimationFrame(runAudioLiveVisualizerFrameLoop);
+      const canvasNode = document.getElementById('audio-wave-visualizer-node');
+      if(!canvasNode) return;
+      const vCtx = canvasNode.getContext('2d');
+      
+      const width = canvasNode.width = canvasNode.clientWidth;
+      const height = canvasNode.height = canvasNode.clientHeight;
+      vCtx.clearRect(0,0,width,height);
+      
+      if(!audioAnalyserNode) return;
+      const bufferLength = audioAnalyserNode.frequencyBinCount;
+      const dataArray = new Uint8Array(bufferLength);
+      audioAnalyserNode.getByteTimeDomainData(dataArray);
+      
+      vCtx.lineWidth = 2;
+      vCtx.strokeStyle = osSettings.accentColorHex;
+      vCtx.shadowBlur = 8;
+      vCtx.shadowColor = osSettings.accentColorHex;
+      vCtx.beginPath();
+      
+      let sliceWidth = width * 1.0 / bufferLength;
+      let x = 0;
+      
+      for(let i = 0; i < bufferLength; i++) {
+        let v = dataArray[i] / 128.0;
+        let y = v * height / 2;
+        if(i === 0) vCtx.moveTo(x, y);
+        else vCtx.lineTo(x, y);
+        x += sliceWidth;
+      }
+      vCtx.lineTo(width, height/2);
+      vCtx.stroke();
     }
 
     function runSystemTime() {
-      let now;
-      try {
-        if (osSettings.timezone !== 'local') {
-          const tzString = new Date().toLocaleString('en-US', { timeZone: osSettings.timezone });
-          now = new Date(tzString);
-        } else {
-          now = new Date();
-        }
-      } catch (e) { now = new Date(); }
-
-      const year = now.getFullYear();
-      const month = String(now.getMonth() + 1).padStart(2, '0');
-      const day = String(now.getDate()).padStart(2, '0');
+      let now = new Date();
       const targetDate = document.getElementById('status-date');
-      if(targetDate) targetDate.textContent = `${month}/${day}/${year}`;
+      if(targetDate) targetDate.textContent = `${String(now.getMonth()+1).padStart(2,'0')}/${String(now.getDate()).padStart(2,'0')}/${now.getFullYear()}`;
 
       let hours = now.getHours();
-      const minutes = now.getMinutes();
-      const seconds = now.getSeconds();
-      const displayMin = String(minutes).padStart(2, '0');
-      const displaySec = String(seconds).padStart(2, '0');
+      const mins = String(now.getMinutes()).padStart(2,'0');
+      const secs = String(now.getSeconds()).padStart(2,'0');
       
-      let timeString = "";
       if (osSettings.clockFormat === '12h') {
         const ampm = hours >= 12 ? 'PM' : 'AM';
-        hours = hours % 12;
-        hours = hours ? hours : 12;
-        const displayHour = String(hours).padStart(2, '0');
-        timeString = `${displayHour}:${displayMin}:${displaySec} ${ampm}`;
+        hours = hours % 12 || 12;
+        document.getElementById('status-time').textContent = `${String(hours).padStart(2,'0')}:${mins}:${secs} ${ampm}`;
       } else {
-        const displayHour = String(hours).padStart(2, '0');
-        timeString = `${displayHour}:${displayMin}:${displaySec}`;
+        document.getElementById('status-time').textContent = `${String(hours).padStart(2,'0')}:${mins}:${secs}`;
       }
-
-      const targetTime = document.getElementById('status-time');
-      if(targetTime) targetTime.textContent = timeString;
     }
     setInterval(runSystemTime, 1000);
 
     const THEME_GRADIENTS = {
       space: "url('https://wallpapercave.com/wp/wp10224249.jpg') no-repeat center center",
       cyber: 'radial-gradient(circle at center, #08121e 0%, #03070d 70%, #000000 100%)',
-      matrix: 'radial-gradient(circle at 50% 50%, #051a05 0%, #000200 80%)',
-      crimson: 'radial-gradient(circle at 80% 20%, #2b0404 0%, #0a0101 60%, #000000 100%)'
+      matrix: 'radial-gradient(circle at 50% 50%, #031403 0%, #000000 90%)',
+      crimson: 'radial-gradient(circle at 50% 50%, #1e0202 0%, #000000 100%)'
     };
 
     function changeBackground(theme, url) {
-      playSystemSound('click');
+      osSettings.themePreset = theme;
+      osSettings.wallpaperUrl = url;
+      saveSystemConfigurationToLocalStorage();
+
       const workspace = document.getElementById('os-workspace-wrapper');
       if (!workspace) return;
-      
       if (url === 'cyber' || url === 'matrix' || url === 'crimson') {
         workspace.style.background = THEME_GRADIENTS[url];
       } else if (url) {
         workspace.style.background = `url('${url}') no-repeat center center`;
-      } else {
-        workspace.style.background = '#04060f radial-gradient(circle at 20% 20%, #1b2845 0%, #04060f 55%, #000000 100%) no-repeat center center';
       }
       workspace.style.backgroundSize = 'cover';
     }
 
-    function uploadCustomWallpaper(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = function(evt) {
-        changeBackground('custom', evt.target.result);
-      };
-      reader.readAsDataURL(file);
-    }
-
     function changeAccentColor(hex) {
+      osSettings.accentColorHex = hex;
+      saveSystemConfigurationToLocalStorage();
       document.documentElement.style.setProperty('--accent-color', hex);
-      const r = parseInt(hex.slice(1,3), 16);
-      const g = parseInt(hex.slice(3,5), 16);
-      const b = parseInt(hex.slice(5,7), 16);
+      const r = parseInt(hex.slice(1,3), 16), g = parseInt(hex.slice(3,5), 16), b = parseInt(hex.slice(5,7), 16);
       document.documentElement.style.setProperty('--accent-color-rgb', `${r}, ${g}, ${b}`);
     }
 
-    function toggleSystemMotionReduction(reduce) {
-      playSystemSound('click');
-      document.documentElement.classList.toggle('reduce-motion', reduce);
-      if(reduce) {
-        const container = document.getElementById('mac-dock-container-node');
-        if(container) {
-          const baseSize = window.getComputedStyle(container).getPropertyValue('--dock-base-size') || '44px';
-          container.querySelectorAll('.app-icon').forEach(icon => {
-            icon.style.width = baseSize;
-            icon.style.height = baseSize;
-          });
-        }
-      }
-    }
-
     function setClockFormat(fmt) {
-      playSystemSound('click');
       osSettings.clockFormat = fmt;
+      saveSystemConfigurationToLocalStorage();
       document.getElementById('clock-fmt-12h').classList.toggle('settings-toggle-active', fmt === '12h');
       document.getElementById('clock-fmt-24h').classList.toggle('settings-toggle-active', fmt === '24h');
       runSystemTime();
     }
 
-    function setDesktopLayoutMode(mode) {
-      playSystemSound('click');
-      const wrapper = document.getElementById('os-workspace-wrapper');
-      if(!wrapper) return;
-      
-      if(mode === 'mobile') {
-        wrapper.classList.add('mobile-mode');
-      } else {
-        wrapper.classList.remove('mobile-mode');
-      }
-      document.getElementById('layout-desktop-btn').classList.toggle('settings-toggle-active', mode === 'desktop');
-      document.getElementById('layout-mobile-btn').classList.toggle('settings-toggle-active', mode === 'mobile');
-    }
-
     function setDockPosition(pos) {
-      playSystemSound('click');
+      osSettings.dockPositionAlign = pos;
+      saveSystemConfigurationToLocalStorage();
       activeDockPosition = pos;
       
       const zone = document.getElementById('dock-trigger-zone-wrapper');
@@ -1192,39 +2412,12 @@
       const container = document.getElementById('mac-dock-container-node');
       if(!zone || !dock || !container) return;
 
-      // Bring dock back into immediate focus when moving structures
       dock.classList.remove('dock-hidden-bottom', 'dock-hidden-left', 'dock-hidden-right');
-      
       zone.className = `dock-trigger-zone zone-${pos}`;
       dock.className = `dock-wrapper dock-pos-${pos}`;
       
-      if(pos === 'left' || pos === 'right') {
-        container.classList.add('dock-orientation-vertical');
-      } else {
-        container.classList.remove('dock-orientation-vertical');
-      }
-      
-      const baseSize = window.getComputedStyle(container).getPropertyValue('--dock-base-size') || '44px';
-      container.querySelectorAll('.app-icon').forEach(icon => {
-        icon.style.width = baseSize;
-        icon.style.height = baseSize;
-      });
-    }
-
-    function adjustSystemDockScaleSize(size) {
-      playSystemSound('click');
-      const container = document.getElementById('mac-dock-container-node');
-      if(!container) return;
-      container.classList.remove('dock-size-small', 'dock-size-medium', 'dock-size-large');
-      container.classList.add(`dock-size-${size}`);
-      
-      setTimeout(() => {
-        const baseSize = window.getComputedStyle(container).getPropertyValue('--dock-base-size');
-        container.querySelectorAll('.app-icon').forEach(icon => {
-          icon.style.width = baseSize;
-          icon.style.height = baseSize;
-        });
-      }, 50);
+      if(pos === 'left' || pos === 'right') container.classList.add('dock-orientation-vertical');
+      else container.classList.remove('dock-orientation-vertical');
     }
 
     function toggleControlCenterHubPopup() {
@@ -1234,35 +2427,22 @@
 
     function adjustSystemAudioVolume(val) {
       document.getElementById('lbl-volume-pct').textContent = `${val}%`;
-      if(masterGain && audioCtx) {
-        masterGain.gain.setValueAtTime((val / 100) * 0.9, audioCtx.currentTime);
-      }
+      if(masterGain && audioCtx) masterGain.gain.setValueAtTime((val / 100) * 0.9, audioCtx.currentTime);
     }
 
     function adjustSystemBrightnessDisplay(val) {
       document.getElementById('lbl-brightness-pct').textContent = `${val}%`;
       const dimmer = document.getElementById('system-brightness-dimmer');
-      if(dimmer) {
-        dimmer.style.opacity = (100 - val) / 100;
-      }
+      if(dimmer) dimmer.style.opacity = (100 - val) / 100;
     }
 
     function toggleSystemAudioMuteState() {
-      playSystemSound('click');
       soundEnabled = !soundEnabled;
       const btn = document.getElementById('toggle-audio-state-btn');
       if(btn) {
         btn.textContent = soundEnabled ? "ON" : "MUTED";
         btn.classList.toggle('settings-toggle-active', soundEnabled);
       }
-    }
-
-    function launchExternalWebLinkRouter(target) {
-      playSystemSound('click');
-      let endpoint = 'https://mail.google.com';
-      if(target === 'spotify') endpoint = 'https://open.spotify.com';
-      else if(target === 'youtube') endpoint = 'https://www.youtube.com';
-      window.open(endpoint, '_blank');
     }
 
     function executeNetworkQuerySearch(event) {
@@ -1275,7 +2455,6 @@
       let url = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
       if(engine === 'bing') url = `https://www.bing.com/search?q=${encodeURIComponent(query)}`;
       else if(engine === 'duck') url = `https://duckduckgo.com/?q=${encodeURIComponent(query)}`;
-      
       window.open(url, '_blank');
     }
 
@@ -1289,75 +2468,34 @@
     }
 
     let currentDragWin = null;
-    let dragOffsetX = 0; let dragOffsetY = 0;
+    let dragOffsetX = 0, dragOffsetY = 0;
 
     function dragWindowStart(e, id) {
       currentDragWin = document.getElementById(id);
-      windowZStack++;
-      currentDragWin.style.zIndex = windowZStack;
+      windowZStack++; currentDragWin.style.zIndex = windowZStack;
       dragOffsetX = e.clientX - currentDragWin.offsetLeft;
       dragOffsetY = e.clientY - currentDragWin.offsetTop;
       document.addEventListener('mousemove', dragWindowExecute);
       document.addEventListener('mouseup', dragWindowStop);
     }
-
     function dragWindowExecute(e) {
       if (!currentDragWin) return;
       currentDragWin.style.left = `${e.clientX - dragOffsetX}px`;
       currentDragWin.style.top = `${e.clientY - dragOffsetY}px`;
     }
-
-    function dragWindowStop() {
-      currentDragWin = null;
-      document.removeEventListener('mousemove', dragWindowExecute);
-      document.removeEventListener('mouseup', dragWindowStop);
-    }
-
-    function closeAppWindow(id) {
-      playSystemSound('click');
-      const win = document.getElementById(id);
-      if(win) win.classList.remove('active');
-      if(id === 'game-window') { stopArcadeSimulationLoop(); }
-    }
-
-    function minimizeAppWindow(id) {
-      playSystemSound('click');
-      const win = document.getElementById(id);
-      if(win) win.classList.remove('active');
-    }
-
-    function maximizeAppWindow(id) {
-      playSystemSound('click');
-      const win = document.getElementById(id);
-      if(win) win.classList.toggle('fullscreen-mode');
-    }
+    function dragWindowStop() { currentDragWin = null; document.removeEventListener('mousemove', dragWindowExecute); document.removeEventListener('mouseup', dragWindowStop); }
+    function closeAppWindow(id) { playSystemSound('click'); const win = document.getElementById(id); if(win) win.classList.remove('active'); if(id === 'game-window') stopArcadeSimulationLoop(); }
 
     const calcScreen = document.getElementById('calc-screen-node');
-    function appendCalcCharacter(char) {
-      playSystemSound('click');
-      if(calcScreen.value === '0') calcScreen.value = char;
-      else calcScreen.value += char;
-    }
-    function clearCalcDisplay() {
-      playSystemSound('click');
-      calcScreen.value = '0';
-    }
-    function executeCalcEvaluation() {
-      playSystemSound('click');
-      try {
-        calcScreen.value = eval(calcScreen.value);
-      } catch(e) {
-        calcScreen.value = 'ERROR';
-      }
-    }
+    function appendCalcCharacter(char) { playSystemSound('click'); if(calcScreen.value === '0') calcScreen.value = char; else calcScreen.value += char; }
+    function clearCalcDisplay() { playSystemSound('click'); calcScreen.value = '0'; }
+    function executeCalcEvaluation() { playSystemSound('click'); try { calcScreen.value = eval(calcScreen.value); } catch(e) { calcScreen.value = 'ERROR'; } }
 
     function evaluateTerminalLine(e) {
       if(e.key !== 'Enter') return;
       const inputNode = document.getElementById('term-raw-input');
       const log = document.getElementById('term-history-output');
-      const cmd = inputNode.value.trim();
-      inputNode.value = "";
-      if(!cmd) return;
+      const cmd = inputNode.value.trim(); inputNode.value = ""; if(!cmd) return;
 
       playSystemSound('click');
       let response = `\n> ${cmd}\n`;
@@ -1365,113 +2503,41 @@
 
       switch(args[0]) {
         case 'help':
-          response += "Available Modules: help, clear, status, telemetry, sysinfo, theme [neon/matrix/crimson], open [app-id]";
+          response += "Commands: help, clear, sysinfo, open [app-id]";
           break;
-        case 'clear':
-          log.innerHTML = "";
-          return;
-        case 'status':
-          response += "Kernel Core Matrix running normal. Crimson reactor temperature steady.";
-          break;
-        case 'telemetry':
-          response += "Sectors OK. Active Memory allocation: 412MB mapped virtual pages.";
-          break;
+        case 'clear': log.innerHTML = ""; return;
         case 'sysinfo':
-          response += "OS: Keshav-CyberOS Architecture v0.2.1\nGamerLink module active.\nZ-Stack Registry Depth: " + windowZStack;
-          break;
-        case 'theme':
-          if(args[1] && THEME_GRADIENTS[args[1]]) {
-            changeBackground('theme', args[1]);
-            response += `Theme preset converted cleanly to pipeline [${args[1]}]`;
-          } else {
-            response += "Usage: theme [cyber/matrix/crimson]";
-          }
+          response += "OS Architecture: Cyber-OS Ultimate v0.3 Core Matrix Layer Enabled.";
           break;
         case 'open':
           if(args[1]) {
             let winId = args[1].includes('-window') ? args[1] : `${args[1]}-window`;
-            if(document.getElementById(winId)) {
-              openAppWindow(winId);
-              response += `Dispatched pipeline handle hook for ${winId}`;
-            } else response += `App match pointer '${args[1]}' unrecognized.`;
-          } else response += "Specify an app targeting identity descriptor.";
+            if(document.getElementById(winId)) { openAppWindow(winId); response += `Hooked window pipeline: ${winId}`; }
+            else response += `Sector match for target app identity unknown.`;
+          } else response += "Please supply structural window identity string mapping.";
           break;
-        default:
-          response += `Instruction pointer error: sequence verification vector "${cmd}" not found.`;
+        default: response += `Instruction array sequence check mapping failed: '${cmd}' unverified.`;
       }
-      log.innerHTML += response;
-      log.scrollTop = log.scrollHeight;
+      log.innerHTML += response; log.scrollTop = log.scrollHeight;
     }
 
-    function executeGeminiAIPromptQuery() {
-      const box = document.getElementById('gemini-textbox-node');
-      const terminal = document.getElementById('gemini-terminal-log');
-      const query = box.value.trim();
-      if (!query) return;
-
-      playSystemSound('click');
-      box.value = "";
-
-      const userLine = document.createElement('div');
-      userLine.className = "gemini-chat-row";
-      userLine.style.borderColor = "rgba(255,255,255,0.15)";
-      userLine.innerHTML = `
-        <div class="news-tag" style="color: #a0aec0;">LOCAL OPERATOR ADDR</div>
-        <p class="news-headline" style="font-size:13px; font-weight:500;">${query}</p>
-      `;
-      terminal.appendChild(userLine);
-      terminal.scrollTop = terminal.scrollHeight;
-
-      setTimeout(() => {
-        playSystemSound('alert');
-        const systemLine = document.createElement('div');
-        systemLine.className = "gemini-chat-row";
-        
-        let reply = "Vector log parameter verified. Broadcast request safely acknowledged inside global databanks.";
-        let normQuery = query.toLowerCase();
-
-        if (normQuery.includes('pythagorean') || normQuery.includes('theorem')) {
-          reply = "<b>The Pythagorean Theorem:</b> In a right-angled triangle, the square of the hypotenuse is equal to the sum of the squares of the other two sides.<br><br><b>Formula:</b> a² + b² = c²";
-        } else if (normQuery.includes('hello') || normQuery.includes('hi')) {
-          reply = "Greetings, Operator. Central processing architecture is listening. Ready for arcade simulation parameters.";
-        } else if (normQuery.includes('status') || normQuery.includes('system')) {
-          reply = "All WebOS pipelines operating smoothly. Crimson reactor core remains locked and optimized.";
-        } else if (normQuery.includes('gamerlink') || normQuery.includes('games')) {
-          reply = "GamerLink dashboard loaded successfully. Running 5 isolated retro vector game cores.";
-        }
-
-        systemLine.innerHTML = `
-          <div class="news-tag" style="color: #7a9eff;">GEMINI CORE PROTOCOL</div>
-          <p class="news-headline" style="font-size:13px; line-height: 1.4;">${reply}</p>
-        `;
-        terminal.appendChild(systemLine);
-        terminal.scrollTop = terminal.scrollHeight;
-      }, 750);
-    }
-
-    // GAMERLINK ARCADE LOGIC
+    // GAMERLINK 5-GAME COMPREHENSIVE RECONSTRUCT LOGIC
     let canvas = document.getElementById('warp-game-canvas');
     let ctx = canvas.getContext('2d');
-    let arcadeMode = 'menu'; 
-    let arcadeLoopId = null;
-    
-    let baseWidth = 336, baseHeight = 240;
+    let arcadeMode = 'menu'; let arcadeLoopId = null;
+    let baseWidth = 336, baseHeight = 245;
 
-    let arcadeScores = { warp: 0, meteor: 0, invaders: 0, worm: 0, matrix: 0 };
-    let arcadeBests = { warp: 0, meteor: 0, invaders: 0, worm: 0, matrix: 0 };
+    let arcadeScores = { warp:0, meteor:0, invaders:0, worm:0, matrix:0 };
+    let arcadeBests = { warp:0, meteor:0, invaders:0, worm:0, matrix:0 };
     let gameActive = false, gameOverState = false;
 
     let keyState = {};
     window.addEventListener('keydown', e => { keyState[e.key] = true; });
     window.addEventListener('keyup', e => { keyState[e.key] = false; });
 
-    let starsArr = [];
-    let playerShip = { x: 30, y: 120, v: 0, w: 15, h: 10 };
-    let spaceEntities = []; 
-    let wormBody = [];
-    let wormDir = { x: 1, y: 0 };
-    let plasmaCell = { x: 0, y: 0 };
+    let starsArr = [], spaceEntities = [], wormBody = [], wormDir = {x:1, y:0}, plasmaCell = {x:0, y:0};
     let memSequence = [], memUserStep = 0, memIsShowing = false;
+    let playerShip = { x: 30, y: 120, v: 0, w: 16, h: 10 };
 
     function switchGamerLinkView(gameType) {
       playSystemSound('click');
@@ -1481,368 +2547,234 @@
       arcadeMode = gameType;
       document.getElementById('gl-game-title').textContent = gameType.toUpperCase() + " ACTIVE";
       document.getElementById('game-score-label').textContent = "0";
+      
+      // Pull local high scores if present
+      const localBest = localStorage.getItem(`gl_best_${gameType}`) || 0;
+      arcadeBests[gameType] = parseInt(localBest);
       document.getElementById('game-best-label').textContent = arcadeBests[gameType];
       
       canvas.style.display = (gameType === 'matrix') ? 'none' : 'block';
       document.getElementById('gl-memory-ui').style.display = (gameType === 'matrix') ? 'flex' : 'none';
 
       resetSelectedGameCore(gameType);
-      
       if(arcadeLoopId) cancelAnimationFrame(arcadeLoopId);
-      gameActive = false;
-      gameOverState = false;
+      gameActive = false; gameOverState = false;
       
       canvas.removeEventListener('mousedown', handleArcadeStageClick);
       canvas.addEventListener('mousedown', handleArcadeStageClick);
       
-      if (arcadeMode !== 'matrix') {
-        runArcadeSimulationLoop();
-      } else {
-        startMemoryMatrixRound();
-      }
+      if (arcadeMode !== 'matrix') runArcadeSimulationLoop();
+      else startMemoryMatrixRound();
     }
 
     function exitToArcadeDashboard() {
-      playSystemSound('click');
-      stopArcadeSimulationLoop();
+      playSystemSound('click'); stopArcadeSimulationLoop();
       document.getElementById('gl-stage').style.display = 'none';
       document.getElementById('gl-dashboard').style.display = 'grid';
       arcadeMode = 'menu';
     }
 
-    function stopArcadeSimulationLoop() {
-      if(arcadeLoopId) cancelAnimationFrame(arcadeLoopId);
-      gameActive = false;
-    }
+    function stopArcadeSimulationLoop() { if(arcadeLoopId) cancelAnimationFrame(arcadeLoopId); gameActive = false; }
 
     function handleArcadeStageClick() {
-      if(gameOverState) {
-        resetSelectedGameCore(arcadeMode);
-        gameOverState = false;
-        gameActive = true;
-        return;
-      }
-      if(!gameActive) {
-        gameActive = true;
-        return;
-      }
-      if(arcadeMode === 'warp') {
-        playerShip.v = -4.2;
-        playSystemSound('click');
-      }
+      if(gameOverState) { resetSelectedGameCore(arcadeMode); gameOverState = false; gameActive = true; return; }
+      if(!gameActive) { gameActive = true; return; }
+      if(arcadeMode === 'warp') { playerShip.v = -4.0; playSystemSound('click'); }
     }
 
     function resetSelectedGameCore(type) {
       arcadeScores[type] = 0;
       document.getElementById('game-score-label').textContent = "0";
-      spaceEntities = [];
-      starsArr = [];
-      for(let i=0; i<30; i++) starsArr.push({ x: Math.random()*baseWidth, y: Math.random()*baseHeight, z: Math.random()*baseWidth });
+      spaceEntities = []; starsArr = [];
+      for(let i=0; i<25; i++) starsArr.push({ x: Math.random()*baseWidth, y: Math.random()*baseHeight, z: Math.random()*baseWidth });
 
-      if(type === 'warp') {
-        playerShip.y = 110; playerShip.v = 0;
-      } else if(type === 'meteor') {
-        playerShip.x = baseWidth/2; playerShip.y = baseHeight - 20;
-      } else if(type === 'invaders') {
-        playerShip.x = baseWidth/2; playerShip.y = baseHeight - 15;
-        for(let r=0; r<3; r++) {
-          for(let c=0; c<7; c++) {
-            spaceEntities.push({ type: 'alien', x: 40 + c*40, y: 25 + r*20, dir: 1, w: 16, h: 10 });
-          }
-        }
-      } else if(type === 'worm') {
-        wormBody = [{x: 5, y: 10}, {x: 4, y: 10}, {x: 3, y: 10}];
-        wormDir = { x: 1, y: 0 };
-        spawnPlasmaCell();
+      if(type === 'warp') { playerShip.y = 110; playerShip.v = 0; }
+      else if(type === 'meteor') { playerShip.x = baseWidth/2; playerShip.y = baseHeight - 16; }
+      else if(type === 'invaders') {
+        playerShip.x = baseWidth/2; playerShip.y = baseHeight - 16;
+        for(let r=0; r<3; r++) { for(let c=0; c<6; c++) { spaceEntities.push({ type: 'alien', x: 45 + c*40, y: 30 + r*18, dir: 1, w: 14, h: 10 }); } }
       }
+      else if(type === 'worm') { wormBody = [{x: 5, y: 10}, {x: 4, y: 10}, {x: 3, y: 10}]; wormDir = { x: 1, y: 0 }; spawnPlasmaCell(); }
     }
 
     function spawnPlasmaCell() {
-      plasmaCell.x = Math.floor(Math.random() * (baseWidth / 10));
-      plasmaCell.y = Math.floor(Math.random() * (baseHeight / 10));
+      plasmaCell.x = Math.floor(Math.random() * (baseWidth / 10 - 2)) + 1;
+      plasmaCell.y = Math.floor(Math.random() * (baseHeight / 10 - 2)) + 1;
     }
 
     function runArcadeSimulationLoop() {
       const container = document.getElementById('canvas-container-box');
-      if (container) {
-        if (canvas.width !== container.clientWidth || canvas.height !== container.clientHeight) {
-          canvas.width = container.clientWidth;
-          canvas.height = container.clientHeight;
-        }
+      if (container && (canvas.width !== container.clientWidth || canvas.height !== container.clientHeight)) {
+        canvas.width = container.clientWidth; canvas.height = container.clientHeight;
       }
 
-      ctx.save();
-      ctx.fillStyle = '#010602';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      let scaleX = canvas.width / baseWidth;
-      let scaleY = canvas.height / baseHeight;
-      ctx.scale(scaleX, scaleY);
+      ctx.save(); ctx.fillStyle = '#010502'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.scale(canvas.width / baseWidth, canvas.height / baseHeight);
 
       ctx.fillStyle = "rgba(0, 255, 102, 0.25)";
       starsArr.forEach(s => {
-        s.z -= (gameActive && !gameOverState) ? 3 : 0.5;
-        if(s.z <= 0) s.z = baseWidth;
+        s.z -= (gameActive && !gameOverState) ? 2.5 : 0.4; if(s.z <= 0) s.z = baseWidth;
         let sx = ((s.x - baseWidth/2)/s.z)*baseWidth + baseWidth/2;
         let sy = ((s.y - baseHeight/2)/s.z)*baseHeight + baseHeight/2;
         if(sx>=0 && sx<baseWidth && sy>=0 && sy<baseHeight) ctx.fillRect(sx, sy, 1.2, 1.2);
       });
 
       if(!gameActive && !gameOverState) {
-        ctx.fillStyle = '#00ff66';
-        ctx.font = "bold 11px 'Orbitron', sans-serif";
-        ctx.textBaseline = 'middle'; ctx.textAlign = 'center';
-        ctx.fillText('TAP PROTOCOL GRID TO START', baseWidth/2, baseHeight/2);
+        ctx.fillStyle = '#00ff66'; ctx.font = "bold 10px 'Orbitron'"; ctx.textAlign = 'center';
+        ctx.fillText('CLICK SIM PLATFORM TO ENGAGE CONTROL', baseWidth/2, baseHeight/2);
       }
-
       if(gameOverState) {
-        ctx.fillStyle = '#ff5555';
-        ctx.font = "bold 13px 'Orbitron', sans-serif";
-        ctx.textBaseline = 'middle'; ctx.textAlign = 'center';
-        ctx.fillText('CRITICAL CORE RECONSTRUCT', baseWidth/2, baseHeight/2 - 8);
-        ctx.font = "9px sans-serif"; ctx.fillStyle = '#a0aec0';
-        ctx.fillText('Click viewport to reinitialize pipeline', baseWidth/2, baseHeight/2 + 10);
+        ctx.fillStyle = '#ff5555'; ctx.font = "bold 11px 'Orbitron'"; ctx.textAlign = 'center';
+        ctx.fillText('CRITICAL CORE SHIP RECONSTRUCT', baseWidth/2, baseHeight/2);
       }
 
-      if(gameActive && !gameOverState) {
-        executeActiveGameTickLogic();
-      } else {
-        if(arcadeMode === 'warp' || arcadeMode === 'meteor' || arcadeMode === 'invaders') {
-          ctx.fillStyle = '#00ff66';
-          ctx.fillRect(playerShip.x, playerShip.y, playerShip.w, playerShip.h);
-        }
+      if(gameActive && !gameOverState) executeActiveGameTickLogic();
+      else if(arcadeMode !== 'worm') {
+        ctx.fillStyle = '#00ff66'; ctx.fillRect(playerShip.x, playerShip.y, playerShip.w, playerShip.h);
       }
 
       ctx.restore();
-      arcadeLoopId = requestAnimationFrame(runArcadeSimulationLoop);
+      if(arcadeMode !== 'matrix') arcadeLoopId = requestAnimationFrame(runArcadeSimulationLoop);
     }
 
     function executeActiveGameTickLogic() {
+      // 1. Warp Flight Core Simulation Rules
       if(arcadeMode === 'warp') {
-        playerShip.v += 0.22; 
-        playerShip.y += playerShip.v;
+        playerShip.v += 0.22; playerShip.y += playerShip.v;
         if(playerShip.y<0 || playerShip.y>baseHeight-10) triggerArcadeGameOver();
 
-        if(Math.random() < 0.018) {
-          let gap = 70;
-          let gy = Math.random()*(baseHeight - gap - 30) + 15;
-          spaceEntities.push({ type: 'gate', x: baseWidth, gy: gy, gap: gap, passed: false });
-        }
-
+        if(Math.random() < 0.02) spaceEntities.push({ type: 'gate', x: baseWidth, gy: Math.random()*(baseHeight-90)+10, gap: 65, passed: false });
         for(let i=spaceEntities.length-1; i>=0; i--) {
-          let e = spaceEntities[i];
-          e.x -= 2;
-          ctx.fillStyle = 'rgba(0, 255, 102, 0.15)';
-          ctx.strokeStyle = '#00ff66';
-          ctx.fillRect(e.x, 0, 15, e.gy);
-          ctx.strokeRect(e.x, 0, 15, e.gy);
-          ctx.fillRect(e.x, e.gy+e.gap, 15, baseHeight - (e.gy+e.gap));
-          ctx.strokeRect(e.x, e.gy+e.gap, 15, baseHeight - (e.gy+e.gap));
-
-          if(!e.passed && e.x < playerShip.x) {
-            e.passed = true; incrementArcadeScore('warp');
-          }
-          if(e.x < playerShip.x+15 && e.x+15 > playerShip.x) {
-            if(playerShip.y < e.gy || playerShip.y+10 > e.gy+e.gap) triggerArcadeGameOver();
-          }
+          let e = spaceEntities[i]; e.x -= 2;
+          ctx.strokeStyle = '#00ff66'; ctx.strokeRect(e.x, 0, 14, e.gy); ctx.strokeRect(e.x, e.gy+e.gap, 14, baseHeight);
+          if(!e.passed && e.x < playerShip.x) { e.passed = true; incrementArcadeScore('warp'); }
+          if(e.x < playerShip.x+16 && e.x+14 > playerShip.x && (playerShip.y < e.gy || playerShip.y+10 > e.gy+e.gap)) triggerArcadeGameOver();
           if(e.x < -20) spaceEntities.splice(i,1);
         }
-
-        ctx.fillStyle = '#00ff66';
-        ctx.fillRect(playerShip.x, playerShip.y, playerShip.w, playerShip.h);
+        ctx.fillStyle = '#00ff66'; ctx.fillRect(playerShip.x, playerShip.y, playerShip.w, playerShip.h);
       }
-
+      // 2. Meteor Strike Core Simulation Rules
       else if(arcadeMode === 'meteor') {
-        if(keyState['ArrowLeft'] && playerShip.x > 5) playerShip.x -= 2.5;
+        if(keyState['ArrowLeft'] && playerShip.x > 4) playerShip.x -= 2.5;
         if(keyState['ArrowRight'] && playerShip.x < baseWidth - 20) playerShip.x += 2.5;
 
-        if(Math.random() < 0.07) {
-          spaceEntities.push({ type: 'laser', x: playerShip.x + 7, y: playerShip.y - 4 });
-          playSystemSound('click');
-        }
-        if(Math.random() < 0.03) {
-          spaceEntities.push({ type: 'meteor', x: Math.random()*(baseWidth-20), y: -15, size: 12 + Math.random()*10 });
-        }
+        if(Math.random() < 0.08) spaceEntities.push({ type: 'laser', x: playerShip.x + 7, y: playerShip.y - 4 });
+        if(Math.random() < 0.035) spaceEntities.push({ type: 'meteor', x: Math.random()*(baseWidth-20), y: -15, size: 12+Math.random()*8 });
 
         for(let i=spaceEntities.length-1; i>=0; i--) {
           let e = spaceEntities[i];
           if(e.type === 'laser') {
-            e.y -= 4;
-            ctx.fillStyle = '#00ff66';
-            ctx.fillRect(e.x, e.y, 2, 6);
+            e.y -= 4.5; ctx.fillStyle = '#00ff66'; ctx.fillRect(e.x, e.y, 2, 5);
             if(e.y < -10) spaceEntities.splice(i,1);
           } else if(e.type === 'meteor') {
-            e.y += 1.5;
-            ctx.strokeStyle = '#00ff66';
-            ctx.strokeRect(e.x, e.y, e.size, e.size);
-
-            if(e.y > baseHeight) triggerArcadeGameOver();
-            if(e.x < playerShip.x+15 && e.x+e.size > playerShip.x && e.y+e.size > playerShip.y) {
-              triggerArcadeGameOver();
-            }
-
+            e.y += 1.6; ctx.strokeStyle = '#00ff66'; ctx.strokeRect(e.x, e.y, e.size, e.size);
+            if(e.y > baseHeight || (e.x < playerShip.x+16 && e.x+e.size > playerShip.x && e.y+e.size > playerShip.y)) triggerArcadeGameOver();
+            
             spaceEntities.forEach((l, lIdx) => {
               if(l.type === 'laser' && l.x > e.x && l.x < e.x+e.size && l.y > e.y && l.y < e.y+e.size) {
-                spaceEntities.splice(i,1);
-                incrementArcadeScore('meteor');
+                spaceEntities.splice(i,1); incrementArcadeScore('meteor');
               }
             });
           }
         }
-        ctx.fillStyle = '#00ff66';
-        ctx.fillRect(playerShip.x, playerShip.y, playerShip.w, playerShip.h);
+        ctx.fillStyle = '#00ff66'; ctx.fillRect(playerShip.x, playerShip.y, playerShip.w, playerShip.h);
       }
-
+      // 3. Space Invaders Core Simulation Rules
       else if(arcadeMode === 'invaders') {
-        if(keyState['ArrowLeft'] && playerShip.x > 5) playerShip.x -= 2.5;
-        if(keyState['ArrowRight'] && playerShip.x < baseWidth - 20) playerShip.x += 2.5;
+        if(keyState['ArrowLeft'] && playerShip.x > 4) playerShip.x -= 2.2;
+        if(keyState['ArrowRight'] && playerShip.x < baseWidth - 20) playerShip.x += 2.2;
+        if(Math.random() < 0.02) spaceEntities.push({ type: 'bullet', x: playerShip.x + 7, y: playerShip.y - 4 });
 
-        if(Math.random() < 0.02) {
-          spaceEntities.push({ type: 'bullet', x: playerShip.x + 7, y: playerShip.y - 4 });
-        }
-
-        let changeDir = false;
-        let alienCount = 0;
-
+        let changeDir = false, alienCount = 0;
         spaceEntities.forEach(e => {
           if(e.type === 'alien') {
-            alienCount++;
-            e.x += e.dir * 0.5;
-            if(e.x > baseWidth - 20 || e.x < 5) changeDir = true;
-            ctx.strokeStyle = '#00ff66';
-            ctx.strokeRect(e.x, e.y, e.w, e.h);
+            alienCount++; e.x += e.dir * 0.4; if(e.x > baseWidth - 18 || e.x < 4) changeDir = true;
+            ctx.strokeStyle = '#00ff66'; ctx.strokeRect(e.x, e.y, e.w, e.h);
             if(e.y + 10 >= playerShip.y) triggerArcadeGameOver();
           }
         });
 
         if(alienCount === 0) { resetSelectedGameCore('invaders'); return; }
-
-        if(changeDir) {
-          spaceEntities.forEach(e => { if(e.type === 'alien') { e.dir *= -1; e.y += 6; } });
-        }
+        if(changeDir) { spaceEntities.forEach(e => { if(e.type === 'alien') { e.dir *= -1; e.y += 6; } }); }
 
         for(let i=spaceEntities.length-1; i>=0; i--) {
           let b = spaceEntities[i];
           if(b.type === 'bullet') {
-            b.y -= 3.5;
-            ctx.fillStyle = '#00ff66';
-            ctx.fillRect(b.x, b.y, 2, 5);
+            b.y -= 4; ctx.fillStyle = '#00ff66'; ctx.fillRect(b.x, b.y, 2, 5);
             if(b.y < 0) { spaceEntities.splice(i,1); continue; }
-
             spaceEntities.forEach((al, aIdx) => {
               if(al.type === 'alien' && b.x > al.x && b.x < al.x+al.w && b.y > al.y && b.y < al.y+al.h) {
-                spaceEntities.splice(aIdx, 1);
-                incrementArcadeScore('invaders');
+                spaceEntities.splice(aIdx, 1); spaceEntities.splice(i,1); incrementArcadeScore('invaders');
               }
             });
           }
         }
-        ctx.fillStyle = '#00ff66';
-        ctx.fillRect(playerShip.x, playerShip.y, playerShip.w, playerShip.h);
+        ctx.fillStyle = '#00ff66'; ctx.fillRect(playerShip.x, playerShip.y, playerShip.w, playerShip.h);
       }
-
+      // 4. Cosmic Worm Core Simulation Rules
       else if(arcadeMode === 'worm') {
-        if(keyState['ArrowLeft'] && wormDir.x !== 1) { wormDir = {x: -1, y: 0}; }
-        if(keyState['ArrowRight'] && wormDir.x !== -1) { wormDir = {x: 1, y: 0}; }
-        if(keyState['ArrowUp'] && wormDir.y !== 1) { wormDir = {x: 0, y: -1}; }
-        if(keyState['ArrowDown'] && wormDir.y !== -1) { wormDir = {x: 0, y: 1}; }
+        if(keyState['ArrowLeft'] && wormDir.x !== 1) wormDir = {x:-1, y:0};
+        if(keyState['ArrowRight'] && wormDir.x !== -1) wormDir = {x:1, y:0};
+        if(keyState['ArrowUp'] && wormDir.y !== 1) wormDir = {x:0, y:-1};
+        if(keyState['ArrowDown'] && wormDir.y !== -1) wormDir = {x:0, y:1};
 
-        if(Math.random() < 0.12) {
+        if(Math.random() < 0.15) {
           let head = { x: wormBody[0].x + wormDir.x, y: wormBody[0].y + wormDir.y };
-          
-          if(head.x < 0 || head.x >= baseWidth/10 || head.y < 0 || head.y >= baseHeight/10) {
-            triggerArcadeGameOver(); return;
-          }
-          for(let b of wormBody) { if(b.x === head.x && b.y === head.y) { triggerArcadeGameOver(); return; } }
+          if(head.x < 0 || head.x >= baseWidth/10 || head.y < 0 || head.y >= baseHeight/10) { triggerArcoverOverWorm(); return; }
+          for(let part of wormBody) { if(part.x === head.x && part.y === head.y) { triggerArcoverOverWorm(); return; } }
 
           wormBody.unshift(head);
-
-          if(head.x === plasmaCell.x && head.y === plasmaCell.y) {
-            incrementArcadeScore('worm');
-            spawnPlasmaCell();
-            playSystemSound('alert');
-          } else {
-            wormBody.pop();
-          }
+          if(head.x === plasmaCell.x && head.y === plasmaCell.y) { incrementArcadeScore('worm'); spawnPlasmaCell(); playSystemSound('click'); }
+          else wormBody.pop();
         }
-
-        ctx.fillStyle = '#ff5555';
-        ctx.fillRect(plasmaCell.x*10, plasmaCell.y*10, 8, 8);
-
-        ctx.fillStyle = '#00ff66';
-        wormBody.forEach(part => {
-          ctx.fillRect(part.x*10, part.y*10, 8, 8);
-        });
+        ctx.fillStyle = '#ff3333'; ctx.fillRect(plasmaCell.x*10, plasmaCell.y*10, 8, 8);
+        ctx.fillStyle = '#00ff66'; wormBody.forEach(p => ctx.fillRect(p.x*10, p.y*10, 8, 8));
       }
     }
 
+    function triggerArcoverOverWorm() { triggerArcadeGameOver(); }
+
     function incrementArcadeScore(game) {
-      arcadeScores[game]++;
-      document.getElementById('game-score-label').textContent = arcadeScores[game];
+      arcadeScores[game]++; document.getElementById('game-score-label').textContent = arcadeScores[game];
       if(arcadeScores[game] > arcadeBests[game]) {
         arcadeBests[game] = arcadeScores[game];
         document.getElementById('game-best-label').textContent = arcadeBests[game];
+        localStorage.setItem(`gl_best_${game}`, arcadeBests[game]);
       }
     }
 
-    function triggerArcadeGameOver() {
-      gameOverState = true;
-      gameActive = false;
-      playSystemSound('alert');
-    }
+    function triggerArcadeGameOver() { gameOverState = true; gameActive = false; playSystemSound('alert'); }
 
+    // 5. Memory Matrix Core Setup
     function startMemoryMatrixRound() {
       if(arcadeMode !== 'matrix') return;
-      memIsShowing = true;
-      memUserStep = 0;
+      memIsShowing = true; memUserStep = 0;
       memSequence.push(Math.floor(Math.random()*4));
       document.getElementById('game-score-label').textContent = memSequence.length - 1;
-      
-      if(memSequence.length - 1 > arcadeBests.matrix) {
-        arcadeBests.matrix = memSequence.length - 1;
-        document.getElementById('game-best-label').textContent = arcadeBests.matrix;
-      }
       executeMemoryFlashSequence(0);
     }
 
     function executeMemoryFlashSequence(index) {
-      if(arcadeMode !== 'matrix') return;
-      if(index >= memSequence.length) {
-        memIsShowing = false;
-        return;
-      }
+      if(arcadeMode !== 'matrix' || index >= memSequence.length) { memIsShowing = false; return; }
       let nodeIdx = memSequence[index];
       let elem = document.getElementById(`gl-node-${nodeIdx}`);
       if(elem) {
-        elem.classList.add('flash');
-        playSystemSound('click');
-        setTimeout(() => {
-          elem.classList.remove('flash');
-          setTimeout(() => { executeMemoryFlashSequence(index + 1); }, 250);
-        }, 400);
+        elem.classList.add('flash'); playSystemSound('click');
+        setTimeout(() => { elem.classList.remove('flash'); setTimeout(() => { executeMemoryFlashSequence(index+1); }, 250); }, 350);
       }
     }
 
     function handleMemoryInputNode(nodeNum) {
       if(memIsShowing || arcadeMode !== 'matrix') return;
-      playSystemSound('click');
-      
       if(nodeNum === memSequence[memUserStep]) {
         memUserStep++;
-        if(memUserStep >= memSequence.length) {
-          setTimeout(() => { startMemoryMatrixRound(); }, 700);
-        }
+        if(memUserStep >= memSequence.length) { incrementArcadeScore('matrix'); setTimeout(() => { startMemoryMatrixRound(); }, 600); }
       } else {
-        playSystemSound('alert');
-        alert('CRITICAL SIGNAL LOSS: MATRIX REBOOTING');
-        memSequence = [];
-        startMemoryMatrixRound();
+        triggerArcadeGameOver(); alert('SIGNAL REBOOTING: FREQUENCY DISCONNECT'); memSequence = []; exitToArcadeDashboard();
       }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-      renderDynamicTelemetryFeeds();
-    });
   </script>
 </body>
 </html>
+
+
